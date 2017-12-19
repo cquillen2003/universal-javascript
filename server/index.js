@@ -10,7 +10,7 @@ var createDocument = require('./index.html');
 console.log('process.env.NODE_ENV:', process.env.NODE_ENV);
 console.log('Koa app.env:', app.env);
 
-var dir = process.env.NODE_ENV === 'production' ? '/../public' : '/../tmp';
+var dir = process.env.NODE_ENV === 'production' ? '/../dist' : '/../tmp';
 
 app.use(serve(__dirname + dir));
 
