@@ -5,8 +5,9 @@
   "main": "index.js",
   "scripts": {
     "start": "node ./server/index.js",
+    "dev": "node ./server/index.js & webpack --watch --progress --env.development",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "webpack --env=development"
+    "build": "webpack --env=production"
   },
   "keywords": [],
   "author": "",
