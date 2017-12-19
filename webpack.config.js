@@ -10,7 +10,9 @@ module.exports = env => {
 		entry: './src/index.js',
 		module: {
 			rules: [
-				{ test: /\.js$/, exclude: /node_modules/, loader: 'babel-loader' }
+				{ test: /\.js$/, include: path.resolve(__dirname, 'src'), loader: 'babel-loader' },
+				{ test: /\.css$/, include: path.resolve(__dirname, 'src'), use: ['style-loader', 'css-loader'] },
+				{ test: /\.scss$/, include: path.resolve(__dirname, 'src'), use: ['style-loader', 'css-loader', 'sass-loader'] }
 			]
 		},
 		output: {
