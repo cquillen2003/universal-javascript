@@ -18,4 +18,5 @@ app.use(async ctx => {
 	ctx.body = createDocument({});
 });
 
-app.listen(3000);
+//Use process.env.PORT on Heroku
+app.listen(process.env.PORT || 3000);
