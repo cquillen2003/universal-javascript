@@ -15,10 +15,10 @@ function createDocument(props) {
 				<div id="root"></div>
 
 				<!-- Webpack Bundle -->
-				<script src="bundle.js"></script>
+				<script src="${props.bundle}"></script>
 			</body>
 		</html>
 	`
 }
 
-module.exports = createDocument;
+export default createDocument;

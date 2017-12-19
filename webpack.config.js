@@ -7,16 +7,19 @@ module.exports = env => {
 	var dir = env === 'production' ? 'dist' : 'tmp';
 
 	return {
-		entry: './src/index.js',
+		entry: {
+			app: './src/index.js',
+			login: './server/pages/login/index.js'
+		},
 		module: {
 			rules: [
-				{ test: /\.js$/, include: path.resolve(__dirname, 'src'), loader: 'babel-loader' },
-				{ test: /\.css$/, include: path.resolve(__dirname, 'src'), use: ['style-loader', 'css-loader'] },
-				{ test: /\.scss$/, include: path.resolve(__dirname, 'src'), use: ['style-loader', 'css-loader', 'sass-loader'] }
+				{ test: /\.js$/, exclude: /node_modules/, loader: 'babel-loader' },
+				{ test: /\.css$/, exclude: /node_modules/, use: ['style-loader', 'css-loader'] },
+				{ test: /\.scss$/, exclude: /node_modules/, use: ['style-loader', 'css-loader', 'sass-loader'] }
 			]
 		},
 		output: {
-			filename: 'bundle.js',
+			filename: '[name].bundle.js',
 			path: path.resolve(__dirname, dir)
 		}
 	}
