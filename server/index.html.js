@@ -15,7 +15,10 @@ function createDocument(props) {
 				<link rel="stylesheet" href="/index.css">
  			</head>
 			<body>
-				<h1>Hello, world!</h1>
+				<div id="root"></div>
+
+				<!-- JavaScript Bundle -->
+				<script src="bundle.js"></script>
 			</body>
 		</html>
 	`
