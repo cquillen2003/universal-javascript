@@ -15,7 +15,7 @@ function createDocument(props) {
 				<div id="root"></div>
 
 				<!-- Webpack Bundle -->
-				<script src="${props.bundle}"></script>
+				<script src="/${props.bundle}"></script>
 			</body>
 		</html>
 	`
