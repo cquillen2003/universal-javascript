@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import '../../../vendor/bootstrap.min.css';
 import './login.scss';
 
 class Login extends Component {
