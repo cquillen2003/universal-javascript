@@ -1,5 +1,5 @@
 import Router from 'koa-router';
-import createDocument from '../index.html';
+import createDocument from '../views/layouts/index.html';
 import authorize from '../middleware/authorize';
 
 var router = new Router();

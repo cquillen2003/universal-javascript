@@ -7,9 +7,9 @@ var serve = require('koa-static');
 var bodyParser = require('koa-bodyparser');
 
 var authorize = require('./middleware/authorize').default;
-var pages = require('./routes/pages').default;
-var sessions = require('./routes/sessions').default;
-var spa = require('./routes/app').default;
+var pages = require('./controllers/pages').default;
+var sessions = require('./api/sessions').default;
+var spa = require('./controllers/app').default;
 
 var app = new Koa();
 
