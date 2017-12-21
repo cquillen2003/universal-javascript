@@ -1,9 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import '../../../../vendor/bootstrap.min.css';
-import './index.scss';
+import AppDesktop from './component';
 
 ReactDOM.render(
-	<h1>Hello, world!  From React v16.</h1>,
+	<AppDesktop/>,
 	document.getElementById('root')
 );

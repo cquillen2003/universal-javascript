@@ -1,8 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Login from './component';
+import AppMobile from './component';
 
 ReactDOM.render(
-	<Login/>,
+	<AppMobile/>,
 	document.getElementById('root')
 );

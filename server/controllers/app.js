@@ -9,7 +9,13 @@ router.use(authorize());
 router.get('/app/*', ctx => {
 	console.log('/app/* route...');
 
-	ctx.body = createDocument({ bundle: 'app.bundle.js' });
+	if (ctx.userAgent.isMobile) {
+		ctx.body = createDocument({ title: 'Universal JS Mobile', bundle: 'mobile.bundle.js' });
+	}
+	else {
+		ctx.body = createDocument({ title: 'Universal JS Desktop', bundle: 'desktop.bundle.js' });
+	}
+	
 });
 
 export default router;

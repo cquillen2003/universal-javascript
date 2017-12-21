@@ -24,7 +24,8 @@ module.exports = env => {
 
 	return {
 		entry: {
-			app: './server/views/apps/desktop/index.js',
+			mobile: './server/views/apps/mobile/index.js',
+			desktop: './server/views/apps/desktop/index.js',
 			login: './server/views/pages/login/index.js'
 		},
 		devtool: devtool,

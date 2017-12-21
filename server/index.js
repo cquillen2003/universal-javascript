@@ -5,6 +5,7 @@ require('dotenv').config();
 var Koa = require('koa');
 var serve = require('koa-static');
 var bodyParser = require('koa-bodyparser');
+var userAgent = require('koa-useragent');
 
 var authorize = require('./middleware/authorize').default;
 var pages = require('./controllers/pages').default;
@@ -15,6 +16,7 @@ var app = new Koa();
 
 //Apply middleware
 app.use(bodyParser());
+app.use(userAgent);
 
 //Public assets
 app.use(serve(__dirname + '/../public'));
