@@ -28,6 +28,7 @@
     "react-dom": "^16.2.0"
   },
   "devDependencies": {
+    "clean-webpack-plugin": "^0.1.17",
     "css-loader": "^0.28.7",
     "node-sass": "^4.7.2",
     "sass-loader": "^6.0.6",

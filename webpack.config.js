@@ -1,18 +1,24 @@
 var path = require('path');
+var CleanWebpackPlugin = require('clean-webpack-plugin');
 var UglifyJSPlugin = require('uglifyjs-webpack-plugin');
 
 module.exports = env => {
 
-	var plugins, dir;
+	var devtool, plugins, dir;
 	
 	if (env === 'production') {
+		devtool = 'source-map';
 		plugins = [
-			new UglifyJSPlugin()
+			new CleanWebpackPlugin(['dist']),
+			new UglifyJSPlugin({ sourceMap: true })
 		];
 		dir = 'dist';
 	}
 	else {
-		plugins = [];
+		devtool = 'cheap-module-eval-source-map';
+		plugins = [
+			new CleanWebpackPlugin(['tmp'])
+		];
 		dir = 'tmp';
 	}
 
@@ -21,6 +27,7 @@ module.exports = env => {
 			app: './src/index.js',
 			login: './server/pages/login/index.js'
 		},
+		devtool: devtool,
 		module: {
 			rules: [
 				{ test: /\.js$/, exclude: /node_modules/, loader: 'babel-loader' },
