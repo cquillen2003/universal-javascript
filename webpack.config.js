@@ -1,6 +1,7 @@
 var path = require('path');
 var CleanWebpackPlugin = require('clean-webpack-plugin');
 var UglifyJSPlugin = require('uglifyjs-webpack-plugin');
+var ManifestPlugin = require('webpack-manifest-plugin');
 
 module.exports = env => {
 
@@ -10,14 +11,16 @@ module.exports = env => {
 		devtool = 'source-map';
 		plugins = [
 			new CleanWebpackPlugin(['dist']),
-			new UglifyJSPlugin({ sourceMap: true })
+			new UglifyJSPlugin({ sourceMap: true }),
+			new ManifestPlugin()
 		];
 		dir = 'dist';
 	}
 	else {
 		devtool = 'cheap-module-eval-source-map';
 		plugins = [
-			new CleanWebpackPlugin(['tmp'])
+			new CleanWebpackPlugin(['tmp']),
+			new ManifestPlugin()
 		];
 		dir = 'tmp';
 	}
@@ -38,7 +41,7 @@ module.exports = env => {
 		},
 		plugins: plugins,
 		output: {
-			filename: '[name].bundle.js',
+			filename: '[name].bundle.[chunkhash].js',
 			path: path.resolve(__dirname, dir)
 		}
 	}
