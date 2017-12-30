@@ -5,7 +5,7 @@ var ManifestPlugin = require('webpack-manifest-plugin');
 
 module.exports = env => {
 
-	var devtool, plugins, dir;
+	var devtool, plugins, dir, filename;
 	
 	if (env === 'production') {
 		devtool = 'source-map';
@@ -15,6 +15,7 @@ module.exports = env => {
 			new ManifestPlugin()
 		];
 		dir = 'dist';
+		filename = '[name].bundle.[chunkhash].js';
 	}
 	else {
 		devtool = 'cheap-module-eval-source-map';
@@ -23,6 +24,7 @@ module.exports = env => {
 			new ManifestPlugin()
 		];
 		dir = 'tmp';
+		filename = '[name].bundle.js';
 	}
 
 	return {
@@ -41,7 +43,7 @@ module.exports = env => {
 		},
 		plugins: plugins,
 		output: {
-			filename: '[name].bundle.[chunkhash].js',
+			filename: filename,
 			path: path.resolve(__dirname, dir)
 		}
 	}
