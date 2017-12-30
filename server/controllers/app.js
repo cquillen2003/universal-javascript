@@ -2,12 +2,18 @@ import Router from 'koa-router';
 import createDocument from '../views/layouts/index.html';
 import authorize from '../middleware/authorize';
 
+import couch from '../../src/services/couch';
+import loadDocs from '../../src/actions';
+
 var router = new Router();
 
 router.use(authorize());
 
 router.get('/app/*', ctx => {
 	console.log('/app/* route...');
+
+	couch.setUrl('/some-couch-url');
+	loadDocs();
 
 	var dir = process.env.NODE_ENV === 'production' ? '../../dist' : '../../tmp';
 	var manifest = require(dir + '/manifest.json');
