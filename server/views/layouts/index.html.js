@@ -7,12 +7,15 @@ function createDocument(props) {
 				<!-- Required meta tags -->
 				<meta charset="utf-8">
 				<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+				<!-- Webpack CSS Bundle -->
+				<link rel="stylesheet" href="/${props.styles}">
  			</head>
 			<body>
-				<div id="root"></div>
+				<div id="root">${props.body}</div>
 
-				<!-- Webpack Bundle -->
-				<script src="/${props.bundle}"></script>
+				<!-- Webpack JS Bundle -->
+				<script src="/${props.scripts}"></script>
 			</body>
 		</html>
 	`

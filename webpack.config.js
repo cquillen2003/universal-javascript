@@ -2,6 +2,7 @@ var path = require('path');
 var CleanWebpackPlugin = require('clean-webpack-plugin');
 var UglifyJSPlugin = require('uglifyjs-webpack-plugin');
 var ManifestPlugin = require('webpack-manifest-plugin');
+var ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 module.exports = env => {
 
@@ -12,19 +13,21 @@ module.exports = env => {
 		plugins = [
 			new CleanWebpackPlugin(['dist']),
 			new UglifyJSPlugin({ sourceMap: true }),
-			new ManifestPlugin()
+			new ManifestPlugin(),
+			new ExtractTextPlugin('[name].[contenthash].css')
 		];
 		dir = 'dist';
-		filename = '[name].bundle.[chunkhash].js';
+		filename = '[name].[chunkhash].js';
 	}
 	else {
 		devtool = 'cheap-module-eval-source-map';
 		plugins = [
 			new CleanWebpackPlugin(['tmp']),
-			new ManifestPlugin()
+			new ManifestPlugin(),
+			new ExtractTextPlugin('[name].css')
 		];
 		dir = 'tmp';
-		filename = '[name].bundle.js';
+		filename = '[name].js';
 	}
 
 	return {
@@ -36,9 +39,21 @@ module.exports = env => {
 		devtool: devtool,
 		module: {
 			rules: [
-				{ test: /\.js$/, exclude: /node_modules/, loader: 'babel-loader' },
-				{ test: /\.css$/, exclude: /node_modules/, use: ['style-loader', 'css-loader'] },
-				{ test: /\.scss$/, exclude: /node_modules/, use: ['style-loader', 'css-loader', 'sass-loader'] }
+				{ 
+					test: /\.js$/, 
+					exclude: /node_modules/, 
+					loader: 'babel-loader' 
+				},
+				{ 
+					test: /\.css$/, 
+					exclude: /node_modules/, 
+					use: ExtractTextPlugin.extract({ fallback: 'style-loader', use: ['css-loader'] }) 
+				},
+				{ 
+					test: /\.scss$/, 
+					exclude: /node_modules/, 
+					use: ExtractTextPlugin.extract({ fallback: 'style-loader', use: ['css-loader', 'sass-loader'] }) 
+				}
 			]
 		},
 		plugins: plugins,

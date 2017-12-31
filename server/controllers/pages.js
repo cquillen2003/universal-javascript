@@ -11,7 +11,9 @@ router.get('/login', ctx => {
 
 	ctx.body = createDocument({
 		title: 'Universal JS Login',
-		bundle: manifest['login.js']
+		body: '<p>Loading...</p>',
+		styles: manifest['login.css'],
+		scripts: manifest['login.js']
 	});
 });
 
