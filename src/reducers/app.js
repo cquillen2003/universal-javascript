@@ -1,5 +1,5 @@
 import db from './db';
-import ui from './ui';
+//import ui from './ui';
 
 var initialState = {
 	session: {},
@@ -12,7 +12,7 @@ export function app(state = initialState, action) {
 		case 'LOAD_DOCS':
 			return {
 				db: db(state.db, action),
-				ui: ui(state.ui, action)
+				//ui: ui(state.ui, action)
 			}
 		default:
 			return state;

@@ -1,10 +1,13 @@
 import Router from 'koa-router';
 import React from 'react';
 import ReactDOMServer from 'react-dom/server';
+import { createStore } from 'redux';
+import { Provider } from 'react-redux';
 import 'ignore-styles';
 import AppDesktop from '../views/apps/desktop/component';
 import createDocument from '../views/layouts/index.html';
 import authorize from '../middleware/authorize';
+import rootReducer from '../../src/reducers/app';
 import couch from '../../src/services/couch';
 import loadDocs from '../../src/actions';
 
@@ -21,6 +24,12 @@ router.get('/app/*', ctx => {
 	var dir = process.env.NODE_ENV === 'production' ? '../../dist' : '../../tmp';
 	var manifest = require(dir + '/manifest.json');
 
+	var store = createStore(rootReducer);
+
+	store.dispatch({ type: 'LOAD_DOCS', payload: { docType: 'todo', docs: [ { _id: '1', name: 'Sample todo' }] } });
+
+	console.log('State is', store.getState());
+
 	var body, props;
 
 	if (ctx.userAgent.isMobile) {
@@ -36,7 +45,11 @@ router.get('/app/*', ctx => {
 	}
 	else {
 
-		body = ReactDOMServer.renderToString(<AppDesktop/>);
+		body = ReactDOMServer.renderToString(
+			<Provider store={store}>
+				<AppDesktop store={store}/>
+			</Provider>
+		);
 		//body = '<p>Loading...</p>';
 
 		props = {
