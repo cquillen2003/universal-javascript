@@ -3,6 +3,7 @@ import React from 'react';
 import ReactDOMServer from 'react-dom/server';
 import { createStore } from 'redux';
 import { Provider } from 'react-redux';
+import { StaticRouter } from 'react-router-dom';
 import 'ignore-styles';
 import AppDesktop from '../views/apps/desktop/component';
 import createDocument from '../views/layouts/index.html';
@@ -44,10 +45,11 @@ router.get('/app/*', ctx => {
 		};
 	}
 	else {
-
 		body = ReactDOMServer.renderToString(
 			<Provider store={store}>
-				<AppDesktop store={store}/>
+				<StaticRouter basename="/app" location={ctx.url} context={{}}>
+					<AppDesktop/>
+				</StaticRouter>
 			</Provider>
 		);
 		//body = '<p>Loading...</p>';
