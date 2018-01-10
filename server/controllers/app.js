@@ -29,9 +29,7 @@ router.get('/app/*', async (ctx) => {
 
 	couch.create(couchURL);
 
-	await store.dispatch(fetchDocs('todo'));
-
-	var body, props;
+	var context, body, props;
 
 	if (ctx.userAgent.isMobile) {
 
@@ -47,10 +45,33 @@ router.get('/app/*', async (ctx) => {
 	else {
 
 		//body = '<p>Loading...</p>';
+
+		context = { fetchers: [] };
+
+		//Initial render to get fetchData methods via context
+		var start = Date.now();
+		ReactDOMServer.renderToStaticMarkup(
+			<Provider store={store}>
+				<StaticRouter basename="/app" location={ctx.url} context={context}>
+					<AppDesktop/>
+				</StaticRouter>
+			</Provider>
+		);
+		var time = Date.now() - start;
+		console.log(time + ' ms to render!');
+
+		var promises = [];
+		context.fetchers.forEach(fetcher => {
+			promises.push(fetcher(store.dispatch));
+		});
+
+		await Promise.all(promises);
+
+		context = { fetchers: [] };
 		
 		body = ReactDOMServer.renderToString(
 			<Provider store={store}>
-				<StaticRouter basename="/app" location={ctx.url} context={{}}>
+				<StaticRouter basename="/app" location={ctx.url} context={context}>
 					<AppDesktop/>
 				</StaticRouter>
 			</Provider>

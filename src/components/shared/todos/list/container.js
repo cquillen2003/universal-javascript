@@ -5,14 +5,24 @@ import TodoList from './component';
 
 class TodoListContainer extends Component {
 
+	async fetchData(dispatch) {
+		console.log('fetchData()...');
+		await dispatch(fetchDocs('todo'));
+	}
+
+	componentWillMount() {
+		console.log('componentWillMount()...');
+		if (this.props.staticContext) {
+			this.props.staticContext.fetchers.push(this.fetchData);
+		}
+	}
+
 	componentDidMount() {
 		console.log('componentDidMount()...');
-		this.props.dispatch(fetchDocs('todo'));
+		this.fetchData(this.props.dispatch);
 	}
 
 	render() {
-		console.log('TodoListContainer.render()...', this.props);
-
 		if (!this.props.loaded) {
 			return <p>Loading data...</p>
 		}
