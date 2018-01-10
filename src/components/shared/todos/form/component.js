@@ -9,7 +9,13 @@ class TodoForm extends Component {
 			this.state = {
 				name: '',
 				desc: ''
-			}
+			};
+		}
+		else {
+			this.state = {
+				name: this.props.todo.name,
+				desc: this.props.todo.description
+			};
 		}
 
 		this.change = this.change.bind(this);

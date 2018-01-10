@@ -13,6 +13,7 @@ class TodoNew extends Component {
 
 	create(formState) {
 		console.log('create()...', formState);
+		
 		var todo = new Todo({
 			name: formState.name,
 			description: formState.desc
@@ -24,7 +25,6 @@ class TodoNew extends Component {
 	}
 
 	render() {
-		console.log('TodoNew.render()...');
 		return (
 			<div className="container">
 				<div className="row">
