@@ -2,7 +2,7 @@ import Router from 'koa-router';
 
 var router = new Router();
 
-router.post('/sessions', ctx => {
+router.post('/sessions', async (ctx) => {
 	console.log('/sessions route...', ctx.request.body);
 
 	//User ID and password hard coded for seed project

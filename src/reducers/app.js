@@ -3,20 +3,25 @@ import db from './db';
 
 var initialState = {
 	session: {},
-	db: {},
+	db: {
+		todo: { ids: [], docs: {}, loaded: false }
+	},
 	ui: {}
 };
 
-export function app(state = initialState, action) {
+function rootReducer(state = initialState, action) {
+	console.log(action.type);
 	switch(action.type) {
+		case 'SAVE_DOC_START':
+		case 'SAVE_DOC_SUCCESS':
 		case 'LOAD_DOCS':
 			return {
-				db: db(state.db, action),
-				//ui: ui(state.ui, action)
+				...state,
+				db: db(state.db, action)
 			}
 		default:
-			return state;
+			return state
 	}
 }
 
-export default app;
+export default rootReducer

@@ -1,8 +1,8 @@
 import React, { Component, Fragment } from 'react';
 import { Switch, Route } from 'react-router-dom';
 import Navbar from '../../../../src/components/desktop/navbar/component';
-import TodoNew from '../../../../src/components/shared/todos/new/component';
-import TodoList from '../../../../src/components/shared/todos/list/component';
+import TodoNewContainer from '../../../../src/components/shared/todos/new/container';
+import TodoListContainer from '../../../../src/components/shared/todos/list/container';
 import '../../../../vendor/bootstrap.min.css';
 import './component.scss';
 
@@ -13,8 +13,8 @@ class AppDesktop extends Component {
 			<Fragment>
 				<Navbar/>
 				<Switch>
-					<Route path="/todos/new" component={TodoNew}/>
-					<Route path="/todos" component={TodoList}/>
+					<Route path="/todos/new" component={TodoNewContainer}/>
+					<Route path="/todos" component={TodoListContainer}/>
 				</Switch>
 			</Fragment>
 		)

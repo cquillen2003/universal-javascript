@@ -1,15 +1,21 @@
+import PouchDB from 'pouchdb';
+import PouchDBFind from 'pouchdb-find';
+
 class Couch {
 
 	constructor() {
-		this.url = null;
+		PouchDB.plugin(PouchDBFind)
+		this.db = null;
 	}
 
-	setUrl(url) {
-		this.url = url;
+	create(url) {
+		console.log('Couch.create()...', url);
+		this.db = new PouchDB(url);
 	}
 
 }
 
+console.log('An instance of Couch was created!!!!!!');
 var couch = new Couch();
 
 export default couch;

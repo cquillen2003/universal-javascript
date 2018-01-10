@@ -32,9 +32,9 @@ module.exports = env => {
 
 	return {
 		entry: {
-			mobile: './server/views/apps/mobile/index.js',
-			desktop: './server/views/apps/desktop/index.js',
-			login: './server/views/pages/login/index.js'
+			mobile: ['babel-polyfill', './server/views/apps/mobile/index.js'],
+			desktop: ['babel-polyfill', './server/views/apps/desktop/index.js'],
+			login: ['babel-polyfill', './server/views/pages/login/index.js']
 		},
 		devtool: devtool,
 		module: {

@@ -3,7 +3,7 @@ import createDocument from '../views/layouts/index.html';
 
 var router = new Router();
 
-router.get('/login', ctx => {
+router.get('/login', async (ctx) => {
 	console.log('/login route...');
 
 	var dir = process.env.NODE_ENV === 'production' ? '../../dist' : '../../tmp';

@@ -10,7 +10,7 @@ var userAgent = require('koa-useragent');
 var authorize = require('./middleware/authorize').default;
 var pages = require('./controllers/pages').default;
 var sessions = require('./api/sessions').default;
-var spa = require('./controllers/app-ssr').default;
+var spa = require('./controllers/app').default;
 
 var app = new Koa();
 
