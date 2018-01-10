@@ -13,6 +13,9 @@ router.get('/login', async (ctx) => {
 		title: 'Universal JS Login',
 		body: '<p>Loading...</p>',
 		styles: manifest['login.css'],
+		state: {},
+		host: '',
+		db: '',
 		scripts: manifest['login.js']
 	});
 });
