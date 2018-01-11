@@ -1,12 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { createStore, applyMiddleware } from 'redux';
-import thunkMiddleware from 'redux-thunk';
 import { Provider } from 'react-redux';
+import thunkMiddleware from 'redux-thunk';
 import { BrowserRouter } from 'react-router-dom';
+import couch from '../../../../src/services/couch';
 import rootReducer from '../../../../src/reducers/app';
 import AppDesktop from './component';
-import couch from '../../../../src/services/couch';
 
 var couchURL = 'https://' + window.__DB_HOST__ + '/' + window.__DB_NAME__;
 delete window.__DB_HOST__;
