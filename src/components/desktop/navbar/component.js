@@ -15,6 +15,9 @@ class Navbar extends Component {
 						<li className="nav-item">
 							<Link to="/todos/new" className="nav-link">New</Link>
 						</li>
+						<li className="nav-item">
+							<Link to="/component" className="nav-link">Component</Link>
+						</li>
 					</ul>
 				</div>
 			</nav>

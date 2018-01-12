@@ -30,6 +30,7 @@
     "pouchdb": "^6.4.1",
     "pouchdb-find": "^6.4.1",
     "react": "^16.2.0",
+    "react-beautiful-dnd": "^4.0.0",
     "react-dom": "^16.2.0",
     "react-redux": "^5.0.6",
     "react-router-dom": "^4.2.2",
