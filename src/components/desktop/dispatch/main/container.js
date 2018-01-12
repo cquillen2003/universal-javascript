@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { fetchDocs } from '../../../actions';
-import Dispatch from './component';
+import { fetchDocs } from '../../../../actions';
+import Dispatch from './component-2';
 
 class DispatchContainer extends Component {
 
@@ -23,7 +23,7 @@ class DispatchContainer extends Component {
 	}
 
 	render() {
-		console.log('render()....');
+		console.log('DispatchContainer.render()....');
 		if (!this.props.loaded) {
 			return <p>Loading data...</p>
 		}
