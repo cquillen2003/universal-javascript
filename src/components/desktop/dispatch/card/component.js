@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { findDOMNode } from 'react-dom';
 import { DragSource, DropTarget } from 'react-dnd';
+import { getEmptyImage } from 'react-dnd-html5-backend';
 
 var style = {
 	margin: '0.3rem',
@@ -11,9 +12,13 @@ var style = {
 
 class Card extends Component {
 
-	render() {
-		console.log('isDragging?', this.props.isDragging);
+	componentDidMount() {
+		this.props.connectDragPreview(getEmptyImage(), {
+			captureDraggingState: true
+		});
+	}
 
+	render() {
 		var opacity = this.props.isDragging ? 0 : 1;
 
 		return (
@@ -44,7 +49,8 @@ function sourceCollect(connect, monitor) {
 	//console.log('sourceCollect()...');
 	return {
 		connectDragSource: connect.dragSource(),
-		isDragging: monitor.isDragging()
+		isDragging: monitor.isDragging(),
+		connectDragPreview: connect.dragPreview()
 	}
 }
 

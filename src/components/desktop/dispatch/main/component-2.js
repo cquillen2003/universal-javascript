@@ -3,6 +3,7 @@ import Card from '../card/component';
 import HTML5Backend from 'react-dnd-html5-backend';
 import { DragDropContext } from 'react-dnd';
 import update from 'immutability-helper';
+import CustomDragLayer from '../drag-layer/component';
 
 class Dispatch extends Component {
 
@@ -55,6 +56,7 @@ class Dispatch extends Component {
 						{ this.state.todos.map((todo, i) => (
 							<Card key={todo._id} index={i} todo={todo} moveCard={this.moveCard}/>
 						)) }
+						<CustomDragLayer/>
 					</div>
 				</div>
 			</div>
