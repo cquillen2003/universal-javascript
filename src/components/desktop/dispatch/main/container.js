@@ -6,24 +6,24 @@ import Dispatch from './component-2';
 class DispatchContainer extends Component {
 
 	async fetchData(dispatch) {
-		console.log('fetchData()...');
+		//console.log('fetchData()...');
 		await dispatch(fetchDocs('todo'));
 	}
 
 	componentWillMount() {
-		console.log('componentWillMount()...');
+		//console.log('componentWillMount()...');
 		if (this.props.staticContext) {
 			this.props.staticContext.fetchers.push(this.fetchData);
 		}
 	}
 
 	componentDidMount() {
-		console.log('componentDidMount()...');
+		//console.log('componentDidMount()...');
 		this.fetchData(this.props.dispatch);
 	}
 
 	render() {
-		console.log('DispatchContainer.render()....');
+		//console.log('DispatchContainer.render()....');
 		if (!this.props.loaded) {
 			return <p>Loading data...</p>
 		}

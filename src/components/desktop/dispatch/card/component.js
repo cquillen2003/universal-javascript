@@ -3,13 +3,6 @@ import { findDOMNode } from 'react-dom';
 import { DragSource, DropTarget } from 'react-dnd';
 import { getEmptyImage } from 'react-dnd-html5-backend';
 
-var style = {
-	margin: '0.3rem',
-	padding: '1rem',
-	border: '1px solid gray',
-	backgroundColor: 'white'
-};
-
 class Card extends Component {
 
 	componentDidMount() {
@@ -18,13 +11,24 @@ class Card extends Component {
 		});
 	}
 
+	getStyles(props) {
+		return {
+			width: '250px',
+			margin: '0.3rem',
+			padding: '1rem',
+			border: '1px solid gray',
+			backgroundColor: 'white',
+			opacity: props.isDragging ? 0: 1
+		};
+	}
+
 	render() {
 		var opacity = this.props.isDragging ? 0 : 1;
 
 		return (
 			this.props.connectDragSource(
 				this.props.connectDropTarget(
-					<div style={{ ...style, opacity }}>
+					<div style={this.getStyles(this.props)}>
 						{ this.props.todo.name }
 					</div>
 				)
@@ -39,7 +43,7 @@ var sourceSpec = {
 	beginDrag: function(props) {
 		//console.log('beginDrag()...', component);
 		return {
-			id: props.todo.id,
+			id: props.todo._id,
 			index: props.index
 		}
 	}
