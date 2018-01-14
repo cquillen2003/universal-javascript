@@ -48,8 +48,6 @@ class CustomDragLayer extends Component {
 			var xSnapped = xCells * 51;
 			var ySnapped = yCells * 49;
 
-			console.log('x cells', xCells);
-
 			x = 857.5 + xSnapped;
 			y = 130 + ySnapped;
 		}
@@ -62,13 +60,10 @@ class CustomDragLayer extends Component {
 	}
 
 	render() {
-		console.log('CustomDragLayer.render()...', this.props.isDragging);
-
+		
 		if (!this.props.isDragging) {
 			return null;
 		}
-
-		console.log(this.props.item);
 
 		return (
 			<div style={this.layerStyles}>
@@ -82,18 +77,12 @@ class CustomDragLayer extends Component {
 }
 
 function collect(monitor) {
-	console.log('DragLayer collect()...');
 	return {
 		item: monitor.getItem(),
 		initialOffset: monitor.getInitialSourceClientOffset(),
 		currentOffset: monitor.getSourceClientOffset(),
 		isDragging: monitor.isDragging()
 	}
-}
-
-function mapStateToProps(state, ownProps) {
-	console.log('mapStateToProps()...');
-	return {}
 }
 
 export default DragLayer(collect)(CustomDragLayer);

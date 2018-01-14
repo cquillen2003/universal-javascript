@@ -12,7 +12,6 @@ class DragCard extends Component {
 	}
 
 	render() {
-		console.log(this.props.offset);
 		return (
 			<div style={this.getStyles(this.props)}>
 				{ this.props.todo.name }

@@ -11,11 +11,8 @@ class Calendar extends Component {
 	}
 
 	componentDidMount() {
-		console.log('componentDidMount()...', this.tbody.firstChild.firstChild.nextSibling);
-
 		var firstCell = this.tbody.firstChild.firstChild.nextSibling;
 		var firstCellRect = firstCell.getBoundingClientRect();
-		console.log(firstCellRect);
 
 		this.props.setOrigin(firstCellRect.x, firstCellRect.y);
 	}

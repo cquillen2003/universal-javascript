@@ -38,6 +38,7 @@ class Dispatch extends Component {
 	*/
 
 	moveCard(dragIndex, hoverIndex) {
+		console.log('moveCard()...');
 		const { todos } = this.state
 		const dragCard = todos[dragIndex]
 
@@ -51,7 +52,6 @@ class Dispatch extends Component {
 	}
 
 	setOrigin(x, y) {
-		console.log('setOrigin()...');
 		this.setState((prevState) => {
 			return {
 				...prevState,
@@ -62,6 +62,7 @@ class Dispatch extends Component {
 	}
 
 	render() {
+		console.log('Dispatch.render()...');
 
 		return (
 			<div className="container">
