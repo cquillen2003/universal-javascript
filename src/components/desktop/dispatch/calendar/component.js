@@ -17,6 +17,8 @@ class Calendar extends Component {
 		this.props.setOrigin(firstCellRect.x, firstCellRect.y);
 	}
 
+	schedule
+
 	render() {
 		return this.props.connectDropTarget(
 			<table className="table table-bordered">
@@ -47,6 +49,24 @@ class Calendar extends Component {
 var spec = {
 	drop: function(props, monitor, component) {
 		console.log('drop()...', monitor.getSourceClientOffset());
+
+		var x = monitor.getSourceClientOffset().x;
+		var y = monitor.getSourceClientOffset().y;
+
+		var xGrid = x - 857.5;
+		var yGrid = y - 130;
+
+		var xCells = Math.round(xGrid / 51);
+		var yCells = Math.round(yGrid / 49);
+
+		console.log(component.resources[yCells]);
+		console.log(component.hours[xCells]);
+
+		//Set drop result for endDrag method
+		return {
+			resource: component.resources[yCells],
+			hour: component.hours[xCells]
+		}
 	}
 };
 

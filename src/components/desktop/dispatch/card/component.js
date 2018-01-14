@@ -22,6 +22,14 @@ class Card extends Component {
 		};
 	}
 
+	schedule(result) {
+		//TODO: Don't mutate
+		this.props.todo.resource = result.resource;
+		this.props.todo.hour = result.hour;
+
+		this.props.schedule(this.props.todo);
+	}
+
 	render() {
 		var opacity = this.props.isDragging ? 0 : 1;
 
@@ -46,6 +54,13 @@ var sourceSpec = {
 			id: props.todo._id,
 			index: props.index
 		}
+	},
+	endDrag(props, monitor, component) {
+		console.log('endDrag()...');
+		console.log(props.todo);
+		console.log(monitor.getDropResult());
+
+		component.schedule(monitor.getDropResult());
 	}
 };
 
