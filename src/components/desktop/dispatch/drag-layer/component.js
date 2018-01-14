@@ -27,19 +27,37 @@ class CustomDragLayer extends Component {
 			top: 0
 		};
 
-		var currentOffset = props.currentOffset;
-
-		if (!currentOffset) {
+		if (!props.currentOffset) {
 			return {
 				...styles,
 				display: 'none'
 			}
 		}
 
+		var x = props.currentOffset.x;
+		var y = props.currentOffset.y;
+
+		//TODO: Use values from Dispatch.state
+		if (x > 857.5) {
+			var xGrid = x - 857.5;
+			var yGrid = y - 130;
+
+			var xCells = Math.round(xGrid / 51);
+			var yCells = Math.round(yGrid / 49);
+
+			var xSnapped = xCells * 51;
+			var ySnapped = yCells * 49;
+
+			console.log('x cells', xCells);
+
+			x = 857.5 + xSnapped;
+			y = 130 + ySnapped;
+		}
+
 		return {
 			...styles,
-			transform: `translate(${currentOffset.x}px, ${currentOffset.y}px)`,
-			WebkitTransform: `translate(${currentOffset.x}px, ${currentOffset.y}px)`
+			transform: `translate(${x}px, ${y}px)`,
+			WebkitTransform: `translate(${x}px, ${y}px)`
 		};
 	}
 
@@ -67,6 +85,7 @@ function collect(monitor) {
 	console.log('DragLayer collect()...');
 	return {
 		item: monitor.getItem(),
+		initialOffset: monitor.getInitialSourceClientOffset(),
 		currentOffset: monitor.getSourceClientOffset(),
 		isDragging: monitor.isDragging()
 	}

@@ -14,7 +14,7 @@ class Card extends Component {
 	getStyles(props) {
 		return {
 			width: '250px',
-			margin: '0.3rem',
+			marginBottom: '0.3rem',
 			padding: '1rem',
 			border: '1px solid gray',
 			backgroundColor: 'white',

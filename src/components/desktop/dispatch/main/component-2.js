@@ -4,6 +4,7 @@ import HTML5Backend from 'react-dnd-html5-backend';
 import { DragDropContext } from 'react-dnd';
 import update from 'immutability-helper';
 import CustomDragLayer from '../drag-layer/component';
+import Calendar from '../calendar/component';
 
 class Dispatch extends Component {
 
@@ -12,9 +13,12 @@ class Dispatch extends Component {
 
 		this.state = {
 			todos: this.props.todos,
-		}
+			x: null,
+			y: null
+		};
 
 		this.moveCard = this.moveCard.bind(this);
+		this.setOrigin = this.setOrigin.bind(this);
 	}
 
 	/*
@@ -46,6 +50,17 @@ class Dispatch extends Component {
 		)
 	}
 
+	setOrigin(x, y) {
+		console.log('setOrigin()...');
+		this.setState((prevState) => {
+			return {
+				...prevState,
+				x: x,
+				y: y
+			};
+		});
+	}
+
 	render() {
 
 		return (
@@ -56,9 +71,14 @@ class Dispatch extends Component {
 						{ this.state.todos.map((todo, i) => (
 							<Card key={todo._id} index={i} todo={todo} moveCard={this.moveCard}/>
 						)) }
-						<CustomDragLayer/>
+						
+					</div>
+					<div className="col-8">
+						<br/>
+						<Calendar setOrigin={this.setOrigin}/>
 					</div>
 				</div>
+				<CustomDragLayer/>
 			</div>
 		)
 	}
