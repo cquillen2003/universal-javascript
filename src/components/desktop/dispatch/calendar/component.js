@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
 import { DropTarget } from 'react-dnd';
+import './component.css';
 
 class Calendar extends Component {
 
 	constructor(props) {
 		super(props);
 
-		this.resources = ['John', 'Bill', 'Sara'];
+		this.resources = ['John', 'Bill', 'Sara', 'Jane', 'Joe', 'Bob', 'Bill', 'Rob', 'CJ', 'BJ', 'TJ'];
 		this.hours = [8, 9, 10, 11, 12, 13, 14, 15, 16, 17];
 	}
 
@@ -14,33 +15,36 @@ class Calendar extends Component {
 		var firstCell = this.tbody.firstChild.firstChild.nextSibling;
 		var firstCellRect = firstCell.getBoundingClientRect();
 
-		this.props.setOrigin(firstCellRect.x, firstCellRect.y);
-	}
+		console.log(firstCell);
+		console.log('First cell', firstCellRect);
 
-	schedule
+		this.origin = firstCell; //TODO: Refactor var names
+
+		this.props.setOrigin(firstCell);
+	}
 
 	render() {
 		return this.props.connectDropTarget(
-			<table className="table table-bordered">
-				<thead>
-					<tr>
-						<th>Resource</th>
+			<div>
+				<div style={{ overflowY: 'scroll'}}>
+					<div className="d-flex">
+						<div className="resource-cell">Resource</div>
 						{ this.hours.map((hour, i) => (
-							<th key={i}>{ hour }</th>
+							<div key={i} className="grid-cell">{ hour }</div>
 						)) }
-					</tr>
-				</thead>
-				<tbody ref={(el) => { this.tbody = el; }}>
+					</div>
+				</div>
+				<div ref={(el) => { this.tbody = el; }} style={{ height: '350px', overflowY: 'auto' }}>
 					{ this.resources.map((resource, i) => (
-						<tr key={i}>
-							<th>{ resource }</th>
+						<div key={i} className="d-flex">
+							<div className="resource-cell">{ resource }</div>
 							{ this.hours.map((hour, i) => (
-								<th key={i}></th>
+								<div key={i} className="grid-cell"></div>
 							)) }
-						</tr>
+						</div>
 					)) }
-				</tbody>
-			</table>
+				</div>
+			</div>
 		)
 	}
 
@@ -53,11 +57,13 @@ var spec = {
 		var x = monitor.getSourceClientOffset().x;
 		var y = monitor.getSourceClientOffset().y;
 
-		var xGrid = x - 857.5;
-		var yGrid = y - 130;
+		var origin = component.origin.getBoundingClientRect();
 
-		var xCells = Math.round(xGrid / 51);
-		var yCells = Math.round(yGrid / 49);
+		var xGrid = x - origin.x;
+		var yGrid = y - origin.y;
+
+		var xCells = Math.round(xGrid / origin.width);
+		var yCells = Math.round(yGrid / origin.height);
 
 		console.log(component.resources[yCells]);
 		console.log(component.hours[xCells]);

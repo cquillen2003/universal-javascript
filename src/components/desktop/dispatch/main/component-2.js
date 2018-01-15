@@ -14,8 +14,7 @@ class Dispatch extends Component {
 
 		this.state = {
 			todos: this.props.todos,
-			x: null,
-			y: null
+			ref: null
 		};
 
 		this.moveCard = this.moveCard.bind(this);
@@ -53,12 +52,11 @@ class Dispatch extends Component {
 		)
 	}
 
-	setOrigin(x, y) {
+	setOrigin(ref) {
 		this.setState((prevState) => {
 			return {
 				...prevState,
-				x: x,
-				y: y
+				ref: ref
 			};
 		});
 	}
@@ -90,7 +88,7 @@ class Dispatch extends Component {
 						<CalendarContainer setOrigin={this.setOrigin}/>
 					</div>
 				</div>
-				<CustomDragLayer/>
+				<CustomDragLayer origin={this.state.ref}/>
 			</div>
 		)
 	}

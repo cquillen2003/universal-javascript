@@ -1,0 +1,13 @@
+.resource-cell {
+	height: 3rem;
+	width: 125px;
+	border-bottom: 1px solid gray;
+}
+
+.grid-cell {
+	height: 3rem;
+	width: 0; /* Fix */
+	flex-grow: 1;
+	border-bottom: 1px solid gray;
+	border-left: 1px solid gray;
+}

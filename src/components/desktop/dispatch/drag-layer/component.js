@@ -37,19 +37,25 @@ class CustomDragLayer extends Component {
 		var x = props.currentOffset.x;
 		var y = props.currentOffset.y;
 
+		//console.log(props.origin);
+		//console.log(props.origin.getBoundingClientRect());
+
+		//TODO: Refactor var names
+		var origin = props.origin.getBoundingClientRect();
+
 		//TODO: Use values from Dispatch.state
-		if (x > 857.5) {
-			var xGrid = x - 857.5;
-			var yGrid = y - 130;
+		if (x > origin.x) {
+			var xGrid = x - origin.x;
+			var yGrid = y - origin.y;
 
-			var xCells = Math.round(xGrid / 51);
-			var yCells = Math.round(yGrid / 49);
+			var xCells = Math.round(xGrid / origin.width);
+			var yCells = Math.round(yGrid / origin.height);
 
-			var xSnapped = xCells * 51;
-			var ySnapped = yCells * 49;
+			var xSnapped = xCells * origin.width;
+			var ySnapped = yCells * origin.height;
 
-			x = 857.5 + xSnapped;
-			y = 130 + ySnapped;
+			x = origin.x + xSnapped;
+			y = origin.y + ySnapped;
 		}
 
 		return {
