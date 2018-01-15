@@ -32,11 +32,9 @@ class Card extends Component {
 
 	render() {
 		return this.props.connectDragSource(
-			this.props.connectDropTarget(
-				<div style={this.getStyles(this.props)}>
-					{ this.props.todo.name }
-				</div>
-			)
+			<div style={this.getStyles(this.props)}>
+				{ this.props.todo.name }
+			</div>
 		)
 	}
 
@@ -99,4 +97,4 @@ function targetCollect(connect, monitor) {
 	}
 }
 
-export default DropTarget('card', targetSpec, targetCollect)(DragSource('card', sourceSpec, sourceCollect)(Card));
+export default DragSource('card', sourceSpec, sourceCollect)(Card);
