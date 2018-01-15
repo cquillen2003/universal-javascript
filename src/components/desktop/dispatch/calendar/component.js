@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { DropTarget } from 'react-dnd';
+import Card from '../card/component';
 import './component.css';
 
 class Calendar extends Component {
@@ -23,6 +24,18 @@ class Calendar extends Component {
 		this.props.setOrigin(firstCell);
 	}
 
+	renderCell(resource, hour) {
+		var todo = this.props.todos.find(todo => {
+			return todo.resource === resource && todo.hour === hour;
+		});
+
+		if (todo) {
+			return (
+				<Card todo={todo}/>
+			)
+		}
+	}
+
 	render() {
 		return this.props.connectDropTarget(
 			<div>
@@ -39,7 +52,9 @@ class Calendar extends Component {
 						<div key={i} className="d-flex">
 							<div className="resource-cell">{ resource }</div>
 							{ this.hours.map((hour, i) => (
-								<div key={i} className="grid-cell"></div>
+								<div key={i} className="grid-cell">
+									{ this.renderCell(resource, hour) }
+								</div>
 							)) }
 						</div>
 					)) }

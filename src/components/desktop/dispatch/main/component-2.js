@@ -13,11 +13,13 @@ class Dispatch extends Component {
 		super(props);
 
 		this.state = {
-			todos: this.props.todos,
+			todos: this.props.todos.filter(todo => !todo.resource || !todo.hour),
 			ref: null
 		};
 
 		this.moveCard = this.moveCard.bind(this);
+		this.findCard = this.findCard.bind(this);
+		this.addCard = this.addCard.bind(this);
 		this.setOrigin = this.setOrigin.bind(this);
 		this.schedule = this.schedule.bind(this);
 	}
@@ -52,6 +54,27 @@ class Dispatch extends Component {
 		)
 	}
 
+	findCard(id) {
+		var todos = this.state.todos;
+		var card = todos.find(todo => todo._id === id);
+
+		return todos.indexOf(card);
+	}
+
+	addCard(id, index) {
+		var todo = this.props.todos.find(todo => todo._id === id);
+
+		var newTodos = [...this.state.todos];
+		newTodos.splice(index, 0, todo);
+
+		this.setState((prevState) => {
+			return {
+				...prevState,
+				todos: newTodos
+			}
+		});
+	}
+
 	setOrigin(ref) {
 		this.setState((prevState) => {
 			return {
@@ -75,10 +98,13 @@ class Dispatch extends Component {
 						<br/>
 						{ this.state.todos.map((todo, i) => (
 							<Card 
-								key={todo._id} 
-								index={i} todo={todo} 
+								key={todo._id}
+								todo={todo}
+								findCard={this.findCard} 
 								moveCard={this.moveCard}
+								addCard={this.addCard}
 								schedule={this.schedule}
+								target
 							/>
 						)) }
 						

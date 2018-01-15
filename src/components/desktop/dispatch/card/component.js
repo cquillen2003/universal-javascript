@@ -18,7 +18,7 @@ class Card extends Component {
 			padding: '1rem',
 			border: '1px solid gray',
 			backgroundColor: 'white',
-			opacity: props.isDragging ? 0: 1
+			opacity: props.isDragging || props.isOver ? 0: 1 //Added isOver for cards coming from calendar
 		};
 	}
 
@@ -31,15 +31,11 @@ class Card extends Component {
 	}
 
 	render() {
-		var opacity = this.props.isDragging ? 0 : 1;
-
-		return (
-			this.props.connectDragSource(
-				this.props.connectDropTarget(
-					<div style={this.getStyles(this.props)}>
-						{ this.props.todo.name }
-					</div>
-				)
+		return this.props.connectDragSource(
+			this.props.connectDropTarget(
+				<div style={this.getStyles(this.props)}>
+					{ this.props.todo.name }
+				</div>
 			)
 		)
 	}
@@ -48,21 +44,43 @@ class Card extends Component {
 
 //Drag source
 var sourceSpec = {
-	beginDrag: function(props) {
-		//console.log('beginDrag()...', component);
+	beginDrag: function(props, monitor, component) {
+		console.log('beginDrag()...', component);
 		return {
-			id: props.todo._id,
-			index: props.index
+			id: props.todo._id
 		}
 	},
 	endDrag(props, monitor, component) {
 		console.log('endDrag()...');
-		console.log(props.todo);
-		console.log(monitor.getDropResult());
 
-		component.schedule(monitor.getDropResult());
+		//component.schedule(monitor.getDropResult());
 	}
 };
+
+//Drop Target
+var targetSpec = {
+	hover: function(props, monitor, component) {
+		console.log('hover()...');
+
+		//Exit if hovering over calendar card
+		if (!props.target) {
+			return;
+		}
+
+		//Using the much simpler hover logic from 2nd sortable example
+		var dragIndex = props.findCard(monitor.getItem().id);
+		var targetIndex = props.findCard(props.todo._id);
+
+		if (dragIndex !== -1) {
+			if (dragIndex !== targetIndex) {
+				props.moveCard(dragIndex, targetIndex);
+			}
+		}
+		else {
+			props.addCard(monitor.getItem().id, targetIndex);
+		}
+	}
+}
 
 function sourceCollect(connect, monitor) {
 	//console.log('sourceCollect()...');
@@ -73,63 +91,12 @@ function sourceCollect(connect, monitor) {
 	}
 }
 
-//Drop Target
-var targetSpec = {
-	hover: function(props, monitor, component) {
-		//console.log('hover()...');
-
-		const dragIndex = monitor.getItem().index
-		const hoverIndex = props.index
-
-		// Don't replace items with themselves
-		if (dragIndex === hoverIndex) {
-			return
-		}
-
-		// Determine rectangle on screen
-		const hoverBoundingRect = findDOMNode(component).getBoundingClientRect()
-
-		// Get vertical middle
-		const hoverMiddleY = (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2
-
-		// Determine mouse position
-		const clientOffset = monitor.getClientOffset()
-
-		// Get pixels to the top
-		const hoverClientY = clientOffset.y - hoverBoundingRect.top
-
-		// Only perform the move when the mouse has crossed half of the items height
-		// When dragging downwards, only move when the cursor is below 50%
-		// When dragging upwards, only move when the cursor is above 50%
-
-		// Dragging downwards
-		if (dragIndex < hoverIndex && hoverClientY < hoverMiddleY) {
-			return
-		}
-
-		// Dragging upwards
-		if (dragIndex > hoverIndex && hoverClientY > hoverMiddleY) {
-			return
-		}
-
-		// Time to actually perform the action
-		props.moveCard(dragIndex, hoverIndex)
-
-		// Note: we're mutating the monitor item here!
-		// Generally it's better to avoid mutations,
-		// but it's good here for the sake of performance
-		// to avoid expensive index searches.
-		monitor.getItem().index = hoverIndex
-	}
-}
-
 function targetCollect(connect, monitor) {
 	//console.log('targetCollect()...');
 	return {
-		connectDropTarget: connect.dropTarget()
+		connectDropTarget: connect.dropTarget(),
+		isOver: monitor.isOver()
 	}
 }
 
 export default DropTarget('card', targetSpec, targetCollect)(DragSource('card', sourceSpec, sourceCollect)(Card));
-
-//export default DragSource('card', sourceSpec, sourceCollect)(DropTarget('card', targetSpec, targetCollect)(Card));
