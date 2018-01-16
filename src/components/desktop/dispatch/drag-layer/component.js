@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { DragLayer } from 'react-dnd';
-import DragCardContainer from '../drag-card/container';
+import Card from '../card/component';
+import CalendarEntry from '../entry/component';
 
 class CustomDragLayer extends Component {
 
@@ -18,21 +19,32 @@ class CustomDragLayer extends Component {
 		};
 	}
 
+	componentWillReceiveProps(nextProps) {
+		console.log('CustomDragLayer.componentWillReceiveProps()....', nextProps);
+		if ( nextProps.item && nextProps.item !== this.props.item) {
+			console.log('find it!!!!!!!!!!!');
+			this.todo = this.props.todos.find(todo => todo._id === nextProps.item.id);
+		}
+	}
+
 	getItemStyles(props) {
 
+		/*
 		var styles = {
-			backgroundColor: 'red',
 			position: 'fixed',
 			left: 0,
 			top: 0
 		};
+		*/
 
+		/*
 		if (!props.currentOffset) {
 			return {
 				...styles,
 				display: 'none'
 			}
 		}
+		*/
 
 		var x = props.currentOffset.x;
 		var y = props.currentOffset.y;
@@ -59,22 +71,34 @@ class CustomDragLayer extends Component {
 		}
 
 		return {
-			...styles,
+			//...styles,
 			transform: `translate(${x}px, ${y}px)`,
 			WebkitTransform: `translate(${x}px, ${y}px)`
 		};
 	}
 
+	renderItem(props) {
+		if (props.currentOffset.x < 500)
+			return (
+				<Card todo={this.todo} />
+			)
+		else {
+			return (
+				<CalendarEntry todo={this.todo}/>
+			)
+		}
+	}
+
 	render() {
 		
-		if (!this.props.isDragging) {
+		if (!this.props.currentOffset || !this.props.isDragging) {
 			return null;
 		}
 
 		return (
 			<div style={this.layerStyles}>
 				<div style={this.getItemStyles(this.props)}>
-					<DragCardContainer item={this.props.item} offset={this.props.currentOffset}/>
+					{ this.renderItem(this.props) }
 				</div>
 			</div>
 		)
@@ -85,7 +109,6 @@ class CustomDragLayer extends Component {
 function collect(monitor) {
 	return {
 		item: monitor.getItem(),
-		initialOffset: monitor.getInitialSourceClientOffset(),
 		currentOffset: monitor.getSourceClientOffset(),
 		isDragging: monitor.isDragging()
 	}

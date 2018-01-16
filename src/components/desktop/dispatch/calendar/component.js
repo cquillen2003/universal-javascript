@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { DropTarget } from 'react-dnd';
-import Card from '../card/component';
+import DraggableEntry from '../entry/drag-source';
 import './component.css';
 
 class Calendar extends Component {
@@ -31,7 +31,7 @@ class Calendar extends Component {
 
 		if (todo) {
 			return (
-				<Card todo={todo}/>
+				<DraggableEntry todo={todo}/>
 			)
 		}
 	}

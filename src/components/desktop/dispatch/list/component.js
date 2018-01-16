@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { DropTarget } from 'react-dnd';
 import { saveDoc } from '../../../../actions';
-import Card from '../card/component';
+import DraggableCard from '../card/drag-source';
 
 /*
 Using a single drop target for sortable rather than using the technique in the
@@ -63,9 +63,9 @@ class DispatchList extends Component {
 
 	render() {
 		return this.props.connectDropTarget(
-			<div ref={(el) => { this.el = el; }} style={{ height: '500px', backgroundColor: 'gray' }}>
+			<div ref={(el) => { this.el = el; }} style={{ height: '500px' }}>
 				{ this.state.todos.map((todo, i) => (
-					<Card key={todo._id} todo={todo} item={this.props.item}/>
+					<DraggableCard key={todo._id} todo={todo} item={this.props.item}/>
 				)) }
 			</div>
 		)
@@ -78,29 +78,33 @@ var spec = {
 	hover: function(props, monitor, component) {
 		console.log('DispatchList.hover()....');
 
-		var dragIndex, mouse, childIndex, card, targetIndex;
+		var mouse = monitor.getClientOffset();
 
-		dragIndex = component.findCard(monitor.getItem().id);
-
-		mouse = monitor.getClientOffset();
-
-		for (childIndex = 0; childIndex < component.el.children.length; childIndex++) {
-			card = component.el.children[childIndex].getBoundingClientRect();
+		for (var i = 0; i < component.el.children.length; i++) {
+			var card = component.el.children[i].getBoundingClientRect();
 			if (card.left < mouse.x && mouse.x < card.right) {
 				if (card.top < mouse.y && mouse.y < card.bottom) {
-					targetIndex = childIndex;
+					var targetIndex = i;
 					break;
 				}
 			}
 		}
 
-		if (targetIndex || targetIndex === 0) {
-			if (dragIndex !== -1) {
-				if (dragIndex !== targetIndex) {
-					component.moveCard(dragIndex, targetIndex);
+		if (!targetIndex && targetIndex !== 0) {
+			return;
+		}
+
+		if (monitor.getItemType() === 'card' || monitor.getItemType() === 'entry') {
+			var sourceIndex = component.findCard(monitor.getItem().id);
+			if (sourceIndex || sourceIndex === 0) {
+				if (sourceIndex !== targetIndex) {
+					component.moveCard(sourceIndex, targetIndex);
 				}
 			}
-			else {
+		}
+
+		if (monitor.getItemType() === 'entry') {
+			if (component.findCard(monitor.getItem().id) === -1) {
 				component.addCard(monitor.getItem().id, targetIndex);
 			}
 		}
@@ -109,20 +113,16 @@ var spec = {
 	drop: function(props, monitor, component) {
 		console.log('DispatchList.drop()....');
 
-		var existing, dragSourceOffset, bottomCard, noCards;
+		if (monitor.getItemType() === 'entry') {
+			var mouse = monitor.getClientOffset();
+			var bottomCard = component.el.lastElementChild.getBoundingClientRect();
+			var noCards = component.el.children.length;
 
-		existing = component.findCard(monitor.getItem().id);
-
-		if (existing !== -1) {
-			return;
-		}
-
-		dragSourceOffset = monitor.getSourceClientOffset();
-		bottomCard = component.el.lastElementChild.getBoundingClientRect();
-		noCards = component.el.children.length;
-
-		if (dragSourceOffset.y > bottomCard.bottom || noCards === 0) {
-			component.addCard(monitor.getItem().id, noCards);
+			if (mouse.y > bottomCard.bottom || noCards === 0) {
+				if (component.findCard(monitor.getItem().id) === -1) {
+					component.addCard(monitor.getItem().id, noCards);
+				}
+			}
 		}
 
 	}
@@ -136,4 +136,4 @@ function collect(connect, monitor) {
 	}
 }
 
-export default DropTarget('card', spec, collect)(DispatchList);
+export default DropTarget(['card', 'entry'], spec, collect)(DispatchList);

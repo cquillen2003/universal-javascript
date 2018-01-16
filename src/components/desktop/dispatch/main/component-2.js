@@ -34,7 +34,7 @@ class Dispatch extends Component {
 						<CalendarContainer setOrigin={this.setOrigin}/>
 					</div>
 				</div>
-				<CustomDragLayer origin={this.state.ref}/>
+				<CustomDragLayer todos={this.props.todos} origin={this.state.ref}/>
 			</div>
 		)
 	}
