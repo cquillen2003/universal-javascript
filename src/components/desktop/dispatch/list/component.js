@@ -97,24 +97,32 @@ class DispatchList extends Component {
 var spec = {
 	hover: function(props, monitor, component) {
 		console.log('DispatchList.hover()....');
-		//console.log(component.el.children);
 
-		var dragIndex = component.findCard(monitor.getItem().id);
+		var dragIndex, mouse, childIndex, card, targetIndex;
 
-		var mouse = monitor.getClientOffset();
+		dragIndex = component.findCard(monitor.getItem().id);
 
-		for (var i = 0; i < component.el.children.length; i++) {
-			//console.log(component.el.children[i].getBoundingClientRect());
-			var card = component.el.children[i].getBoundingClientRect();
+		mouse = monitor.getClientOffset();
+
+		for (childIndex = 0; childIndex < component.el.children.length; childIndex++) {
+			card = component.el.children[childIndex].getBoundingClientRect();
 			if (card.left < mouse.x && mouse.x < card.right) {
 				if (card.top < mouse.y && mouse.y < card.bottom) {
-					console.log('Over card index', i);
-					if (dragIndex !== i) {
-						component.moveCard(dragIndex, i);
-					}
+					targetIndex = childIndex;
+					break;
 				}
 			}
 		}
+
+		if (dragIndex !== -1) {
+			if (dragIndex !== targetIndex) {
+				component.moveCard(dragIndex, targetIndex);
+			}
+		}
+		else {
+			component.addCard(monitor.getItem().id, targetIndex);
+		}
+
 	}
 };
 
