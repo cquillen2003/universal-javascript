@@ -117,6 +117,26 @@ var spec = {
 			}
 		}
 
+	},
+	drop: function(props, monitor, component) {
+		console.log('DispatchList.drop()....');
+
+		var existing, dragSourceOffset, bottomCard, noCards;
+
+		existing = component.findCard(monitor.getItem().id);
+
+		if (existing !== -1) {
+			return;
+		}
+
+		dragSourceOffset = monitor.getSourceClientOffset();
+		bottomCard = component.el.lastElementChild.getBoundingClientRect();
+		noCards = component.el.children.length;
+
+		if (dragSourceOffset.y > bottomCard.bottom || noCards === 0) {
+			component.addCard(monitor.getItem().id, noCards);
+		}
+
 	}
 };
 
