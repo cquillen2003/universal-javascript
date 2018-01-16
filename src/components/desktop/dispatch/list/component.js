@@ -78,15 +78,7 @@ class DispatchList extends Component {
 		return this.props.connectDropTarget(
 			<div ref={(el) => { this.el = el; }} style={{ height: '500px', backgroundColor: 'gray' }}>
 				{ this.state.todos.map((todo, i) => (
-					<Card 
-						key={todo._id}
-						todo={todo}
-						findCard={this.findCard} 
-						moveCard={this.moveCard}
-						addCard={this.addCard}
-						schedule={this.schedule}
-						target
-					/>
+					<Card key={todo._id} todo={todo} item={this.props.item}/>
 				)) }
 			</div>
 		)
@@ -114,8 +106,6 @@ var spec = {
 			}
 		}
 
-		console.log('Drag index and target index', dragIndex, targetIndex);
-
 		if (targetIndex || targetIndex === 0) {
 			if (dragIndex !== -1) {
 				if (dragIndex !== targetIndex) {
@@ -132,7 +122,8 @@ var spec = {
 
 function collect(connect, monitor) {
 	return {
-		connectDropTarget: connect.dropTarget()
+		connectDropTarget: connect.dropTarget(),
+		item: monitor.getItem()
 	}
 }
 

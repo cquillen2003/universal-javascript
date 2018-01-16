@@ -18,7 +18,7 @@ class Card extends Component {
 			padding: '1rem',
 			border: '1px solid gray',
 			backgroundColor: 'white',
-			opacity: props.isDragging || props.isOver ? 0: 1 //Added isOver for cards coming from calendar
+			opacity: this.props.item && this.props.item.id === this.props.todo._id ? 0 : 1
 		};
 	}
 
