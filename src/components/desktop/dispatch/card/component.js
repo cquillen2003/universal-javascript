@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
-import { findDOMNode } from 'react-dom';
-import { DragSource, DropTarget } from 'react-dnd';
+import { DragSource } from 'react-dnd';
 import { getEmptyImage } from 'react-dnd-html5-backend';
 
 class Card extends Component {
@@ -40,8 +39,8 @@ class Card extends Component {
 
 }
 
-//Drag source
-var sourceSpec = {
+//Drag source spec
+var spec = {
 	beginDrag: function(props, monitor, component) {
 		console.log('beginDrag()...', component);
 		return {
@@ -55,32 +54,8 @@ var sourceSpec = {
 	}
 };
 
-//Drop Target
-var targetSpec = {
-	hover: function(props, monitor, component) {
-		console.log('hover()...');
-
-		//Exit if hovering over calendar card
-		if (!props.target) {
-			return;
-		}
-
-		//Using the much simpler hover logic from 2nd sortable example
-		var dragIndex = props.findCard(monitor.getItem().id);
-		var targetIndex = props.findCard(props.todo._id);
-
-		if (dragIndex !== -1) {
-			if (dragIndex !== targetIndex) {
-				props.moveCard(dragIndex, targetIndex);
-			}
-		}
-		else {
-			props.addCard(monitor.getItem().id, targetIndex);
-		}
-	}
-}
-
-function sourceCollect(connect, monitor) {
+//Drag source collecting function
+function collect(connect, monitor) {
 	//console.log('sourceCollect()...');
 	return {
 		connectDragSource: connect.dragSource(),
@@ -89,12 +64,4 @@ function sourceCollect(connect, monitor) {
 	}
 }
 
-function targetCollect(connect, monitor) {
-	//console.log('targetCollect()...');
-	return {
-		connectDropTarget: connect.dropTarget(),
-		isOver: monitor.isOver()
-	}
-}
-
-export default DragSource('card', sourceSpec, sourceCollect)(Card);
+export default DragSource('card', spec, collect)(Card);

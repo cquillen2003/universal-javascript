@@ -22,7 +22,6 @@
     "babel-register": "^6.26.0",
     "dotenv": "^4.0.0",
     "ignore-styles": "^5.0.1",
-    "immutability-helper": "^2.6.4",
     "koa": "^2.4.1",
     "koa-bodyparser": "^4.2.0",
     "koa-router": "^7.3.0",

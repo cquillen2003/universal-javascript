@@ -1,8 +1,13 @@
 import React, { Component } from 'react';
 import { DropTarget } from 'react-dnd';
-import update from 'immutability-helper';
 import { saveDoc } from '../../../../actions';
 import Card from '../card/component';
+
+/*
+Using a single drop target for sortable rather than using the technique in the
+React DnD docs because this enables dropping onto the bottom of a list or onto
+and empty list.  Ultimately it uses the same logic though.
+*/
 
 class DispatchList extends Component {
 
@@ -19,34 +24,16 @@ class DispatchList extends Component {
 		this.schedule = this.schedule.bind(this);
 	}
 
-	/*
-	moveCard(dragIndex, hoverIndex) {
+	moveCard(dragIndex, targetIndex) {
 		var newTodos = [...this.state.todos];
 
 		//Remove dragged item
 		var item = newTodos.splice(dragIndex, 1)[0];
-		console.log('Item to move', item);
 
 		//Add dragged item to new position
-		newTodos.splice(hoverIndex, 0, item);
-		console.log('newTodos', newTodos);
+		newTodos.splice(targetIndex, 0, item);
 
 		this.setState({ todos: newTodos });
-	}
-	*/
-
-	moveCard(dragIndex, hoverIndex) {
-		console.log('moveCard()...');
-		const { todos } = this.state
-		const dragCard = todos[dragIndex]
-
-		this.setState(
-			update(this.state, {
-				todos: {
-					$splice: [[dragIndex, 1], [hoverIndex, 0, dragCard]]
-				},
-			})
-		)
 	}
 
 	findCard(id) {
@@ -86,6 +73,7 @@ class DispatchList extends Component {
 
 }
 
+//Drop target spec
 var spec = {
 	hover: function(props, monitor, component) {
 		console.log('DispatchList.hover()....');
@@ -140,6 +128,7 @@ var spec = {
 	}
 };
 
+//Drop target collecting function
 function collect(connect, monitor) {
 	return {
 		connectDropTarget: connect.dropTarget(),
