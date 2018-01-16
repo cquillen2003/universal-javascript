@@ -114,13 +114,17 @@ var spec = {
 			}
 		}
 
-		if (dragIndex !== -1) {
-			if (dragIndex !== targetIndex) {
-				component.moveCard(dragIndex, targetIndex);
+		console.log('Drag index and target index', dragIndex, targetIndex);
+
+		if (targetIndex || targetIndex === 0) {
+			if (dragIndex !== -1) {
+				if (dragIndex !== targetIndex) {
+					component.moveCard(dragIndex, targetIndex);
+				}
 			}
-		}
-		else {
-			component.addCard(monitor.getItem().id, targetIndex);
+			else {
+				component.addCard(monitor.getItem().id, targetIndex);
+			}
 		}
 
 	}
