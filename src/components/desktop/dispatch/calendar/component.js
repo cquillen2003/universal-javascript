@@ -9,7 +9,7 @@ class Calendar extends Component {
 	constructor(props) {
 		super(props);
 
-		this.resources = ['John', 'Bill', 'Sara', 'Jane', 'Joe', 'Bob', 'Bill', 'Rob', 'CJ', 'BJ', 'TJ'];
+		this.resources = ['John', 'Bill', 'Sara', 'Jane', 'Joe', 'Bob', 'Rob', 'CJ', 'BJ', 'TJ'];
 		this.hours = [8, 9, 10, 11, 12, 13, 14, 15, 16, 17];
 	}
 

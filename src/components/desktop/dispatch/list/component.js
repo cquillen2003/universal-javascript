@@ -60,6 +60,10 @@ class DispatchList extends Component {
 		});
 	}
 
+	cancel(todoId) {
+		this.props.cancel(todoId);
+	}
+
 	render() {
 		return this.props.connectDropTarget(
 			<div ref={(el) => { this.el = el; }} style={{ height: '500px' }}>
@@ -120,6 +124,8 @@ var spec = {
 					component.addCard(monitor.getItem().id, noCards);
 				}
 			}
+
+			component.cancel(monitor.getItem().id);
 		}
 	}
 };
