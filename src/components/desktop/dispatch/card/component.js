@@ -4,11 +4,12 @@ class Card extends Component {
 
 	getStyles(props) {
 		return {
+			width: this.props.width ? this.props.width : 'auto',
 			marginBottom: '0.3rem',
 			padding: '1rem',
 			border: '1px solid gray',
 			backgroundColor: 'white',
-			//opacity: this.props.item && this.props.item.id === this.props.todo._id ? 0 : 1
+			opacity: props.item && props.item.id === props.todo._id ? 0 : 1
 		};
 	}
 
@@ -19,7 +20,6 @@ class Card extends Component {
 			</div>
 		)
 	}
-
 }
 
 export default Card;

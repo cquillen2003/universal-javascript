@@ -14,12 +14,13 @@ class DraggableEntry extends Component {
 	render() {
 		return this.props.connectDragSource(
 			<div>
-				<Entry todo={this.props.todo}/>
+				<Entry { ...this.props }/>
 			</div>
 		)
 	}
 }
 
+//Drag source spec
 var spec = {
 	beginDrag: function(props, monitor, component) {
 		return {
@@ -28,10 +29,12 @@ var spec = {
 	}
 };
 
+//Drag source collecting function
 function collect(connect, monitor) {
 	return {
 		connectDragSource: connect.dragSource(),
-		connectDragPreview: connect.dragPreview()
+		connectDragPreview: connect.dragPreview(),
+		isDragging: monitor.isDragging()
 	}
 }
 

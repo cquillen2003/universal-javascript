@@ -20,42 +20,20 @@ class CustomDragLayer extends Component {
 	}
 
 	componentWillReceiveProps(nextProps) {
-		console.log('CustomDragLayer.componentWillReceiveProps()....', nextProps);
+		//Set vars here so they aren't set each render cycle
 		if ( nextProps.item && nextProps.item !== this.props.item) {
-			console.log('find it!!!!!!!!!!!');
 			this.todo = this.props.todos.find(todo => todo._id === nextProps.item.id);
+			this.cardWidth = this.props.card.getBoundingClientRect().width;
 		}
 	}
 
 	getItemStyles(props) {
-
-		/*
-		var styles = {
-			position: 'fixed',
-			left: 0,
-			top: 0
-		};
-		*/
-
-		/*
-		if (!props.currentOffset) {
-			return {
-				...styles,
-				display: 'none'
-			}
-		}
-		*/
-
 		var x = props.currentOffset.x;
 		var y = props.currentOffset.y;
-
-		//console.log(props.origin);
-		//console.log(props.origin.getBoundingClientRect());
 
 		//TODO: Refactor var names
 		var origin = props.origin.getBoundingClientRect();
 
-		//TODO: Use values from Dispatch.state
 		if (x > origin.x) {
 			var xGrid = x - origin.x;
 			var yGrid = y - origin.y;
@@ -71,7 +49,6 @@ class CustomDragLayer extends Component {
 		}
 
 		return {
-			//...styles,
 			transform: `translate(${x}px, ${y}px)`,
 			WebkitTransform: `translate(${x}px, ${y}px)`
 		};
@@ -80,7 +57,7 @@ class CustomDragLayer extends Component {
 	renderItem(props) {
 		if (props.currentOffset.x < 500)
 			return (
-				<Card todo={this.todo} />
+				<Card todo={this.todo} width={this.cardWidth}/>
 			)
 		else {
 			return (
@@ -90,7 +67,6 @@ class CustomDragLayer extends Component {
 	}
 
 	render() {
-		
 		if (!this.props.currentOffset || !this.props.isDragging) {
 			return null;
 		}
@@ -103,9 +79,9 @@ class CustomDragLayer extends Component {
 			</div>
 		)
 	}
-
 }
 
+//Drag layer collecting function
 function collect(monitor) {
 	return {
 		item: monitor.getItem(),

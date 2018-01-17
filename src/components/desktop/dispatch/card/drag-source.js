@@ -11,45 +11,28 @@ class DraggableCard extends Component {
 		});
 	}
 
-	schedule(result) {
-		//TODO: Don't mutate
-		this.props.todo.resource = result.resource;
-		this.props.todo.hour = result.hour;
-
-		this.props.schedule(this.props.todo);
-	}
-
 	render() {
 		return this.props.connectDragSource(
 			<div>
-				<Card todo={this.props.todo}/>
+				<Card { ...this.props }/>
 			</div>
 		)
 	}
-
 }
 
 //Drag source spec
 var spec = {
 	beginDrag: function(props, monitor, component) {
-		console.log('beginDrag()...', component);
 		return {
 			id: props.todo._id
 		}
-	},
-	endDrag(props, monitor, component) {
-		console.log('endDrag()...');
-
-		//component.schedule(monitor.getDropResult());
 	}
 };
 
 //Drag source collecting function
 function collect(connect, monitor) {
-	//console.log('sourceCollect()...');
 	return {
 		connectDragSource: connect.dragSource(),
-		isDragging: monitor.isDragging(),
 		connectDragPreview: connect.dragPreview()
 	}
 }

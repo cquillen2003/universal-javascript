@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { DropTarget } from 'react-dnd';
-import { saveDoc } from '../../../../actions';
 import DraggableCard from '../card/drag-source';
 
 /*
@@ -21,7 +20,11 @@ class DispatchList extends Component {
 		this.moveCard = this.moveCard.bind(this);
 		this.findCard = this.findCard.bind(this);
 		this.addCard = this.addCard.bind(this);
-		this.schedule = this.schedule.bind(this);
+	}
+
+	componentDidMount() {
+		var firstCard = this.el.firstChild;
+		this.props.setCard(firstCard);
 	}
 
 	moveCard(dragIndex, targetIndex) {
@@ -57,27 +60,20 @@ class DispatchList extends Component {
 		});
 	}
 
-	schedule(todo) {
-		this.props.dispatch(saveDoc('todo', todo));
-	}
-
 	render() {
 		return this.props.connectDropTarget(
 			<div ref={(el) => { this.el = el; }} style={{ height: '500px' }}>
-				{ this.state.todos.map((todo, i) => (
+				{ this.state.todos.map((todo) => (
 					<DraggableCard key={todo._id} todo={todo} item={this.props.item}/>
 				)) }
 			</div>
 		)
 	}
-
 }
 
 //Drop target spec
 var spec = {
 	hover: function(props, monitor, component) {
-		console.log('DispatchList.hover()....');
-
 		var mouse = monitor.getClientOffset();
 
 		for (var i = 0; i < component.el.children.length; i++) {
@@ -98,6 +94,7 @@ var spec = {
 			var sourceIndex = component.findCard(monitor.getItem().id);
 			if (sourceIndex || sourceIndex === 0) {
 				if (sourceIndex !== targetIndex) {
+					console.log('moveCard()...');
 					component.moveCard(sourceIndex, targetIndex);
 				}
 			}
@@ -105,14 +102,13 @@ var spec = {
 
 		if (monitor.getItemType() === 'entry') {
 			if (component.findCard(monitor.getItem().id) === -1) {
+				console.log('addCard()...');
 				component.addCard(monitor.getItem().id, targetIndex);
 			}
 		}
 
 	},
 	drop: function(props, monitor, component) {
-		console.log('DispatchList.drop()....');
-
 		if (monitor.getItemType() === 'entry') {
 			var mouse = monitor.getClientOffset();
 			var bottomCard = component.el.lastElementChild.getBoundingClientRect();
@@ -120,11 +116,11 @@ var spec = {
 
 			if (mouse.y > bottomCard.bottom || noCards === 0) {
 				if (component.findCard(monitor.getItem().id) === -1) {
+					console.log('addCard()...');
 					component.addCard(monitor.getItem().id, noCards);
 				}
 			}
 		}
-
 	}
 };
 

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { DropTarget } from 'react-dnd';
+import { saveDoc } from '../../../../actions';
 import DraggableEntry from '../entry/drag-source';
 import './component.css';
 
@@ -16,12 +17,19 @@ class Calendar extends Component {
 		var firstCell = this.tbody.firstChild.firstChild.nextSibling;
 		var firstCellRect = firstCell.getBoundingClientRect();
 
-		console.log(firstCell);
-		console.log('First cell', firstCellRect);
-
 		this.origin = firstCell; //TODO: Refactor var names
 
 		this.props.setOrigin(firstCell);
+	}
+
+	schedule(result) {
+		var todo = this.props.todos.find(todo => todo._id === result.id);
+
+		//TODO: Don't mutate
+		todo.resource = result.resource;
+		todo.hour = result.hour;
+
+		this.props.dispatch(saveDoc('todo', todo));
 	}
 
 	renderCell(resource, hour) {
@@ -84,10 +92,12 @@ var spec = {
 		console.log(component.hours[xCells]);
 
 		//Set drop result for endDrag method
-		return {
+		var result = {
+			id: monitor.getItem().id,
 			resource: component.resources[yCells],
 			hour: component.hours[xCells]
 		}
+		component.schedule(result);
 	}
 };
 
@@ -98,4 +108,4 @@ function collect(connect, monitor) {
 }
 
 
-export default DropTarget('card', spec, collect)(Calendar);
+export default DropTarget(['card', 'entry'], spec, collect)(Calendar);

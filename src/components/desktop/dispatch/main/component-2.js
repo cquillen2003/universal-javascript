@@ -10,31 +10,46 @@ class Dispatch extends Component {
 	constructor(props) {
 		super(props);
 
-		this.state = { ref: null };
+		//Keep references for live DOM measurements
+		this.state = { 
+			ref: null, //TODO: Rename origin
+			card: null
+		};
 
 		this.setOrigin = this.setOrigin.bind(this);
+		this.setCard = this.setCard.bind(this);
 	}
 
 	setOrigin(ref) {
-		this.setState({ ref: ref });
+		this.setState((prevState) => {
+			return { ...prevState, ref: ref };
+		});
+	}
+
+	setCard(ref) {
+		this.setState((prevState) => {
+			return { ...prevState, card: ref };
+		});
 	}
 
 	render() {
-		console.log('Dispatch.render()...');
-
 		return (
 			<div className="container">
 				<div className="row">
 					<div className="col-4">
 						<br/>
-						<DispatchList todos={this.props.todos}/>
+						<DispatchList todos={this.props.todos} setCard={this.setCard}/>
 					</div>
 					<div className="col-8">
 						<br/>
 						<CalendarContainer setOrigin={this.setOrigin}/>
 					</div>
 				</div>
-				<CustomDragLayer todos={this.props.todos} origin={this.state.ref}/>
+				<CustomDragLayer
+					todos={this.props.todos}
+					card={this.state.card}
+					origin={this.state.ref}
+				/>
 			</div>
 		)
 	}

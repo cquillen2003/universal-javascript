@@ -6,7 +6,9 @@ class Entry extends Component {
 		return {
 			width: '300px', //TODO: f(time, cell width)
 			padding: '0.2rem',
-			border: '1px solid red'
+			color: 'white',
+			backgroundColor: 'red',
+			opacity: props.isDragging ? 0 : 1
 		}
 	}
 
