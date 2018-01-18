@@ -10,16 +10,22 @@ class Calendar extends Component {
 		super(props);
 
 		this.resources = ['John', 'Bill', 'Sara', 'Jane', 'Joe', 'Bob', 'Rob', 'CJ', 'BJ', 'TJ'];
-		this.hours = [8, 9, 10, 11, 12, 13, 14, 15, 16, 17];
+		this.hours = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17];
 	}
 
 	componentDidMount() {
-		var firstCell = this.tbody.firstChild.firstChild.nextSibling;
+		var firstCell = this.grid.firstChild.firstChild;
 		var firstCellRect = firstCell.getBoundingClientRect();
 
 		this.origin = firstCell; //TODO: Refactor var names
 
 		this.props.setOrigin(firstCell);
+
+		//Synchronize scrollling of heading and sidebar with grid
+		this.grid.addEventListener('scroll', (event) => {
+			this.col1.scrollTop = this.grid.scrollTop;
+			this.row1.scrollLeft = this.grid.scrollLeft;
+		});
 	}
 
 	schedule(result) {
@@ -47,25 +53,33 @@ class Calendar extends Component {
 	render() {
 		return this.props.connectDropTarget(
 			<div>
-				<div style={{ overflowY: 'scroll'}}>
-					<div className="d-flex">
+				<div className="d-flex">
+					<div style={{ width: '10%' }}>
 						<div className="resource-cell">Resource</div>
+					</div>
+					<div ref={(el) => { this.row1 = el; }} className="d-flex" style={{ flexGrow: '1', width: 0, overflowX: 'hidden' }}>
 						{ this.hours.map((hour, i) => (
 							<div key={i} className="grid-cell">{ hour }</div>
 						)) }
 					</div>
 				</div>
-				<div ref={(el) => { this.tbody = el; }} style={{ height: '350px', overflowY: 'auto' }}>
-					{ this.resources.map((resource, i) => (
-						<div key={i} className="d-flex">
-							<div className="resource-cell">{ resource }</div>
-							{ this.hours.map((hour, i) => (
-								<div key={i} className="grid-cell">
-									{ this.renderCell(resource, hour) }
-								</div>
-							)) }
-						</div>
-					)) }
+				<div className="grid-body d-flex">
+					<div ref={(el) => { this.col1 = el; }} style={{ width: '10%', overflowY: 'hidden' }}>
+						{ this.resources.map((resource, i) => (
+							<div key={i} className="resource-cell">{ resource }</div>
+						)) }
+					</div>
+					<div ref={(el) => { this.grid = el; }} style={{ flexGrow: '1', width: 0, overflow: 'scroll' }}>
+						{ this.resources.map((resource, i) => (
+							<div key={i} className="d-flex">
+								{ this.hours.map((hour, i) => (
+									<div key={i} className="grid-cell">
+										{ this.renderCell(resource, hour) }
+									</div>
+								)) }
+							</div>
+						)) }
+					</div>
 				</div>
 			</div>
 		)
