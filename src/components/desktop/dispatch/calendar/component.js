@@ -26,6 +26,17 @@ class Calendar extends Component {
 			this.col1.scrollTop = this.grid.scrollTop;
 			this.row1.scrollLeft = this.grid.scrollLeft;
 		});
+
+		//Fix alignment issues caused by scroll bars
+		if (this.col1.clientHeight !== this.grid.clientHeight) {
+			var diff = this.col1.clientHeight - this.grid.clientHeight;
+			this.col1.style.marginBottom = `${diff}px`;
+		}
+
+		if (this.row1.clientWidth !== this.grid.clientWidth) {
+			var diff = this.row1.clientWidth - this.grid.clientWidth;
+			this.row1.style.marginRight = `${diff}px`;
+		}
 	}
 
 	schedule(result) {
