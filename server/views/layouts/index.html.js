@@ -16,7 +16,7 @@ function createDocument(props) {
 				<!-- Global Variables -->
 				<script>
 					window.__PRELOADED_STATE__ = ${JSON.stringify(props.state).replace(/</g, '\\u003c')}
-					window.__DB_HOST__ = '${props.host}';
+					window.__DB_URL__ = '${props.url}';
 					window.__DB_NAME__ = '${props.db}';
 				</script>
 				<!-- Webpack JS Bundle -->

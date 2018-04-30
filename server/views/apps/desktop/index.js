@@ -8,8 +8,8 @@ import couch from '../../../../src/services/couch';
 import rootReducer from '../../../../src/reducers/app';
 import AppDesktop from './component';
 
-var couchURL = 'https://' + window.__DB_HOST__ + '/' + window.__DB_NAME__;
-delete window.__DB_HOST__;
+var couchURL = window.__DB_URL__ + '/' + window.__DB_NAME__;
+delete window.__DB_URL__;
 delete window.__DB_NAME__;
 
 couch.create(couchURL);

@@ -24,7 +24,7 @@ router.get('/app/*', async (ctx) => {
 	var dir = process.env.NODE_ENV === 'production' ? '../../dist' : '../../tmp';
 	var manifest = require(dir + '/manifest.json');
 
-	var couchURL = 'https://' + process.env.COUCH_DB_HOST + '/' + 'universal'; //TODO: Use user's db name
+	var couchURL = process.env.COUCH_DB_URL + '/' + 'universal'; //TODO: Use user's db name
 	couch.create(couchURL);
 
 	var store = createStore(rootReducer, applyMiddleware(thunkMiddleware));
@@ -69,7 +69,7 @@ router.get('/app/*', async (ctx) => {
 			body: body,
 			styles: manifest['mobile.css'],
 			state: store.getState(),
-			host: process.env.COUCH_DB_HOST,
+			url: process.env.COUCH_DB_URL,
 			db: 'universal',
 			scripts: manifest['mobile.js']
 		};
@@ -112,7 +112,7 @@ router.get('/app/*', async (ctx) => {
 			body: body,
 			styles: manifest['desktop.css'],
 			state: store.getState(),
-			host: process.env.COUCH_DB_HOST,
+			url: process.env.COUCH_DB_URL,
 			db: 'universal',
 			scripts: manifest['desktop.js']
 		};
