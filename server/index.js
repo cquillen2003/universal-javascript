@@ -11,6 +11,7 @@ var authorize = require('./middleware/authorize').default;
 var pages = require('./controllers/pages').default;
 var sessions = require('./api/sessions').default;
 var spa = require('./controllers/app').default;
+var documents = require('./api/documents').default;
 
 var app = new Koa();
 
@@ -25,6 +26,7 @@ app.use(serve(__dirname + '/../public'));
 app.use(pages.routes(), pages.allowedMethods());
 app.use(sessions.routes(), sessions.allowedMethods());
 app.use(spa.routes(), spa.allowedMethods());
+app.use(documents.routes(), documents.allowedMethods());
 
 //Private assets
 app.use(authorize());

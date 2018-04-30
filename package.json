@@ -13,6 +13,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "axios": "^0.18.0",
     "babel-core": "^6.26.0",
     "babel-loader": "^7.1.2",
     "babel-plugin-transform-object-rest-spread": "^6.26.0",
@@ -27,6 +28,7 @@
     "koa-router": "^7.3.0",
     "koa-static": "^4.0.2",
     "koa-useragent": "^1.0.0",
+    "mongodb": "^3.0.7",
     "pouchdb": "^6.4.1",
     "pouchdb-find": "^6.4.1",
     "react": "^16.2.0",
