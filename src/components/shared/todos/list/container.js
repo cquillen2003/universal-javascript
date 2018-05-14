@@ -17,9 +17,9 @@ class TodoListContainer extends Component {
 		}
 	}
 
-	componentDidMount() {
+	async componentDidMount() {
 		console.log('componentDidMount()...');
-		this.fetchData(this.props.dispatch);
+		this.fetchData(this.props.dispatch);	
 	}
 
 	render() {

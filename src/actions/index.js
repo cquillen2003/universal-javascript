@@ -1,5 +1,6 @@
 import uuid from 'uuid/v4';
 import couch from '../services/couch';
+import axios from 'axios';
 
 function saveDocStart(docType, doc) {
 	return {
@@ -48,8 +49,13 @@ function loadDocs(docType, docs) {
 
 export function fetchDocs(docType) {
 	return async function(dispatch, getState) {
-		var db = couch.db;
-		var res = await db.find({ selector: { type: docType }});
-		dispatch(loadDocs(docType, res.docs));
+		//Use CouchDB
+		//var db = couch.db;
+		//var res = await db.find({ selector: { type: docType }});
+		//dispatch(loadDocs(docType, res.docs));
+		
+		//Use MongoDB (This only works client-side)
+		var res = await axios.get('/documents');
+		dispatch(loadDocs(docType, res.data.docs));
 	}
 }

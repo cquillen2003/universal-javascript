@@ -77,9 +77,10 @@ router.get('/app/*', async (ctx) => {
 	else {
 
 		//Client-side rendering
-		//body = '<p>Loading...</p>'; 
+		body = '<p>Loading...</p>'; 
 
 		//Server-side rendering
+		/*
 		context = { fetchers: [] };
 
 		ReactDOMServer.renderToStaticMarkup(
@@ -106,6 +107,7 @@ router.get('/app/*', async (ctx) => {
 				</StaticRouter>
 			</Provider>
 		);
+		*/
 
 		props = {
 			title: 'Universal JS Desktop',

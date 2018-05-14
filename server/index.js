@@ -7,6 +7,8 @@ var serve = require('koa-static');
 var bodyParser = require('koa-bodyparser');
 var userAgent = require('koa-useragent');
 
+var connect = require('../db').default;
+
 var authorize = require('./middleware/authorize').default;
 var pages = require('./controllers/pages').default;
 var sessions = require('./api/sessions').default;
@@ -21,6 +23,11 @@ app.use(userAgent);
 
 //Public assets
 app.use(serve(__dirname + '/../public'));
+
+//Connect database and add instance to ctx
+connect().then(db => {
+	app.context.db = db;
+});
 
 //Routes
 app.use(pages.routes(), pages.allowedMethods());
