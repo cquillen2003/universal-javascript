@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
-import axios from 'axios';
 import Todo from '../../../../models/todo';
-import { saveDoc } from '../../../../actions';
+import { createDoc } from '../../../../actions';
 import TodoForm from '../form/component';
 
 class TodoNew extends Component {
@@ -20,13 +19,7 @@ class TodoNew extends Component {
 			description: formState.desc
 		});
 
-		console.log(todo);
-
-		var res = await axios.post('/documents', todo);
-
-		console.log(res);
-
-		//this.props.dispatch(saveDoc('todo', todo));
+		this.props.dispatch(createDoc('todo', todo));
 	}
 
 	render() {

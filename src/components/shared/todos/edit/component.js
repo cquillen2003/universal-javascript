@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { saveDoc } from '../../../../actions';
+import { updateDoc } from '../../../../actions';
 import TodoForm from '../form/component';
 
 class TodoEdit extends Component {
@@ -16,7 +16,7 @@ class TodoEdit extends Component {
 		this.props.todo.name = formState.name;
 		this.props.todo.description = formState.desc;
 
-		this.props.dispatch(saveDoc('todo', this.props.todo));
+		this.props.dispatch(updateDoc('todo', this.props.todo));
 	}
 
 	render() {
