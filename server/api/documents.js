@@ -34,7 +34,7 @@ router.put('/documents', async (ctx) => {
 		console.log('Doc is', doc);
 		var res = await ctx.db.collection('todos').replaceOne({ _id: doc._id }, doc);
 
-		ctx.body = { ok: true };
+		ctx.body = { ok: true, res: res };
 	}
 	catch (error) {
 		console.log('Error caught in put /documents...', error);
