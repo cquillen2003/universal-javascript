@@ -2,8 +2,7 @@ import { MongoClient } from 'mongodb';
 
 //https://blog.mlab.com/2017/05/mongodb-connection-pooling-for-express-applications/
 
-//TODO: Use env vars
-var url = 'mongodb://localhost:27017';
+var url = process.env.MONGO_DB_URL + '/test?retryWrites=true';
 var database = 'myproject';
 
 async function connect() {
