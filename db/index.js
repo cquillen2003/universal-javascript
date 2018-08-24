@@ -1,7 +1,9 @@
-import { MongoClient } from 'mongodb';
+//import { MongoClient } from 'mongodb';
+import { Client } from 'pg';
 
 //https://blog.mlab.com/2017/05/mongodb-connection-pooling-for-express-applications/
 
+/*
 var url = process.env.MONGO_DB_URL + '/test?retryWrites=true';
 var database = 'myproject';
 
@@ -13,6 +15,28 @@ async function connect() {
 		var db = client.db(database);
 		console.log('\n\n' + 'Connected to ' + database + ' database successfully.' + '\n');
 		return db;
+	}
+	catch (error) {
+		console.log('\n' + 'Error connecting to database!' + '\n');
+		console.log(error);
+	}
+}
+*/
+
+async function connect() {
+	try {
+		var client = new Client(); //No argument passed for default config
+		
+		client.connect();
+		console.log('\n\n' + 'Connected to pg database successfully.' + '\n');
+
+		var res1 = await client.query('SELECT $1::text as message', ['Hello world!']);
+		console.log(res1.rows[0].message) // Hello world!
+
+		var res2 = await client.query('SELECT * FROM TODOS');
+		console.log(res2.rows);
+
+		return client;
 	}
 	catch (error) {
 		console.log('\n' + 'Error connecting to database!' + '\n');
