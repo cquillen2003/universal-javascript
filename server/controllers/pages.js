@@ -6,7 +6,7 @@ var router = new Router();
 router.get('/login', async (ctx) => {
 	console.log('/login route...');
 
-	var dir = process.env.NODE_ENV === 'production' ? '../../dist' : '../../tmp';
+	var dir = process.env.NODE_ENV === 'production' ? '../../public/build' : '../../public/tmp';
 	var manifest = require(dir + '/manifest.json');
 
 	ctx.body = createDocument({

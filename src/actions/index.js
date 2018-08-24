@@ -1,6 +1,5 @@
 import uuid from 'uuid/v4';
 import axios from 'axios';
-import couch from '../services/couch';
 
 //Add new doc to redux store
 export function newDoc(docType, doc) {

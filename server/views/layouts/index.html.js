@@ -4,6 +4,8 @@ function createDocument(props) {
 		<html lang="en">
 			<head>
 				<title>${props.title}</title>
+				<link rel="shortcut icon" href="/favicon.ico">
+
 				<!-- Required meta tags -->
 				<meta charset="utf-8">
 				<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -16,8 +18,6 @@ function createDocument(props) {
 				<!-- Global Variables -->
 				<script>
 					window.__PRELOADED_STATE__ = ${JSON.stringify(props.state).replace(/</g, '\\u003c')}
-					window.__DB_URL__ = '${props.url}';
-					window.__DB_NAME__ = '${props.db}';
 				</script>
 				<!-- Webpack JS Bundle -->
 				<script src="/${props.scripts}"></script>

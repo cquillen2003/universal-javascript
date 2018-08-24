@@ -11,8 +11,6 @@ import AppMobile from '../views/apps/mobile/component';
 import createDocument from '../views/layouts/index.html';
 import authorize from '../middleware/authorize';
 import rootReducer from '../../src/reducers/app';
-import couch from '../../src/services/couch';
-import { fetchDocs } from '../../src/actions';
 
 var router = new Router();
 
@@ -21,11 +19,8 @@ router.use(authorize());
 router.get('/app/*', async (ctx) => {
 	console.log('/app/* route...');
 
-	var dir = process.env.NODE_ENV === 'production' ? '../../dist' : '../../tmp';
+	var dir = process.env.NODE_ENV === 'production' ? '../../dist/build' : '../../dist/tmp';
 	var manifest = require(dir + '/manifest.json');
-
-	var couchURL = process.env.COUCH_DB_URL + '/' + 'universal'; //TODO: Use user's db name
-	couch.create(couchURL);
 
 	var store = createStore(rootReducer, applyMiddleware(thunkMiddleware));
 
@@ -69,8 +64,6 @@ router.get('/app/*', async (ctx) => {
 			body: body,
 			styles: manifest['mobile.css'],
 			state: store.getState(),
-			url: process.env.COUCH_DB_URL,
-			db: 'universal',
 			scripts: manifest['mobile.js']
 		};
 	}
@@ -114,8 +107,6 @@ router.get('/app/*', async (ctx) => {
 			body: body,
 			styles: manifest['desktop.css'],
 			state: store.getState(),
-			url: process.env.COUCH_DB_URL,
-			db: 'universal',
 			scripts: manifest['desktop.js']
 		};
 	}

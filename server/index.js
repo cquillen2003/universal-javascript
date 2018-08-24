@@ -22,6 +22,8 @@ app.use(bodyParser());
 app.use(userAgent);
 
 //Public assets
+var dir = process.env.NODE_ENV === 'production' ? 'build' : 'tmp';
+app.use(serve(__dirname + '/../public/' + dir));
 app.use(serve(__dirname + '/../public'));
 
 //Connect database and add instance to ctx
@@ -37,8 +39,8 @@ app.use(documents.routes(), documents.allowedMethods());
 
 //Private assets
 app.use(authorize());
-var dir = process.env.NODE_ENV === 'production' ? '/../dist' : '/../tmp';
-app.use(serve(__dirname + dir));
+var dir = process.env.NODE_ENV === 'production' ? 'build' : 'tmp';
+app.use(serve(__dirname + '/../dist/' + dir));
 
 //Use process.env.PORT on Heroku
 app.listen(process.env.PORT || 3000);

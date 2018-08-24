@@ -1,65 +1,92 @@
 var path = require('path');
 var CleanWebpackPlugin = require('clean-webpack-plugin');
-var UglifyJSPlugin = require('uglifyjs-webpack-plugin');
+var MiniCssExtractPlugin = require("mini-css-extract-plugin");
 var ManifestPlugin = require('webpack-manifest-plugin');
-var ExtractTextPlugin = require('extract-text-webpack-plugin');
 
-module.exports = env => {
+/*
+TODO: Re-add SWPrecacheWebpackPlugin to generate service-worker.js file
+or try WorkboxPlugin as recommended in webpack's documentation on PWAs
+*/
 
-	var devtool, plugins, dir, filename;
-	
-	if (env === 'production') {
-		devtool = 'source-map';
-		plugins = [
-			new CleanWebpackPlugin(['dist']),
-			new UglifyJSPlugin({ sourceMap: true }),
-			new ManifestPlugin(),
-			new ExtractTextPlugin('[name].[contenthash].css')
-		];
-		dir = 'dist';
-		filename = '[name].[chunkhash].js';
-	}
-	else {
-		devtool = 'cheap-module-eval-source-map';
-		plugins = [
-			new CleanWebpackPlugin(['tmp']),
-			new ManifestPlugin(),
-			new ExtractTextPlugin('[name].css')
-		];
-		dir = 'tmp';
-		filename = '[name].js';
-	}
 
-	return {
+module.exports = (env) => {
+
+	//Shared variables for public and private builds
+	var directory = env.production ? 'build' : 'tmp';
+
+	var rules = [
+		{ 
+			test: /\.js$/, 
+			exclude: /node_modules/, 
+			use: ['babel-loader'] 
+		},
+		{ 
+			test: /\.css$/,
+			//exclude: /node_modules/, 
+			use: [MiniCssExtractPlugin.loader, 'css-loader']
+		},
+		{ 
+			test: /\.scss$/, 
+			exclude: '/node_modules/', 
+			use: [MiniCssExtractPlugin.loader, 'css-loader', 'sass-loader'] 
+		},
+		{ 
+			test: /\.(png|svg|jpg|gif)$/, 
+			use: [{ loader: 'file-loader', options: { name: '[name].[ext]' } }] 
+		},
+		{ 
+			test: /\.(woff|woff2|eot|ttf|otf)$/, 
+			use: [{ loader: 'file-loader', options: { name: '[name].[ext]' } }] 
+		}
+	];
+
+	var plugins = [
+		new MiniCssExtractPlugin({
+			filename: env.production ? '[name].[chunkhash].css' : '[name].css',
+		}),
+		new ManifestPlugin()
+	];
+
+	//Config settings for building public assets
+	var public = {
+		mode: env.production ? 'production' : 'development',
+		devtool: env.production ? 'source-map': 'eval',
 		entry: {
-			mobile: ['babel-polyfill', './server/views/apps/mobile/index.js'],
-			desktop: ['babel-polyfill', './server/views/apps/desktop/index.js'],
 			login: ['babel-polyfill', './server/views/pages/login/index.js']
 		},
-		devtool: devtool,
-		module: {
-			rules: [
-				{ 
-					test: /\.js$/, 
-					exclude: /node_modules/, 
-					loader: 'babel-loader' 
-				},
-				{ 
-					test: /\.css$/, 
-					exclude: /node_modules/, 
-					use: ExtractTextPlugin.extract({ fallback: 'style-loader', use: ['css-loader'] }) 
-				},
-				{ 
-					test: /\.scss$/, 
-					exclude: /node_modules/, 
-					use: ExtractTextPlugin.extract({ fallback: 'style-loader', use: ['css-loader', 'sass-loader'] }) 
-				}
-			]
-		},
-		plugins: plugins,
 		output: {
-			filename: filename,
-			path: path.resolve(__dirname, dir)
-		}
-	}
+			path: path.resolve(__dirname, 'public/' + directory),
+			filename: env.production ? '[name].[chunkhash].js' : '[name].js'
+		},
+		module: {
+			rules: rules
+		},
+		plugins: [
+			new CleanWebpackPlugin(['public/' + directory]),
+			...plugins
+		]
+	};
+
+	//Config settings for building private assets
+	var private = {
+		mode: env.production ? 'production' : 'development',
+		devtool: env.production ? 'source-maps': 'eval',
+		entry: {
+			mobile: ['babel-polyfill', './server/views/apps/mobile/index.js'],
+			desktop: ['babel-polyfill', './server/views/apps/desktop/index.js']
+		},
+		output: {
+			path: path.resolve(__dirname, 'dist/' + directory),
+			filename: env.production ? '[name].[chunkhash].js' : '[name].js'
+		},
+		module: {
+			rules: rules
+		},
+		plugins: [
+			new CleanWebpackPlugin(['dist/' + directory]),
+			...plugins
+		]
+	};
+
+	return [public, private];
 };
