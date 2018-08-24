@@ -7,13 +7,15 @@ var database = 'myproject';
 
 async function connect() {
 	try {
-		var client = await MongoClient.connect(url);
+		var client = await MongoClient.connect(url, {
+			useNewUrlParser: true
+		});
 		var db = client.db(database);
-		console.log('Connected to db successfully.');
+		console.log('\n\n' + 'Connected to ' + database + ' database successfully.' + '\n');
 		return db;
 	}
 	catch (error) {
-		console.log('Error connecting to db!');
+		console.log('\n' + 'Error connecting to database!' + '\n');
 		console.log(error);
 	}
 }
