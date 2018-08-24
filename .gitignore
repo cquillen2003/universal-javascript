@@ -1,3 +1,4 @@
 /node_modules
-/tmp
+/dist/tmp
+/public/tmp
 .env
