@@ -25,7 +25,10 @@ async function connect() {
 
 async function connect() {
 	try {
-		var client = new Client(); //No argument passed for default config
+		//TODO: Use pool instead per Heroku docs (?)
+		var client = new Client({
+			connectionString: process.env.DATABASE_URL //Environment var automatically added by Heroku add-on
+		});
 		
 		client.connect();
 		console.log('\n\n' + 'Connected to pg database successfully.' + '\n');

@@ -29,6 +29,7 @@ app.use(serve(__dirname + '/../public'));
 
 //Connect database and add instance to ctx
 connect().then(db => {
+	console.log('connect()...', db);
 	app.context.db = db;
 });
 
