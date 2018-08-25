@@ -23,6 +23,7 @@
     "babel-register": "^6.26.0",
     "dotenv": "^6.0.0",
     "ignore-styles": "^5.0.1",
+    "jsonwebtoken": "^8.3.0",
     "koa": "^2.5.2",
     "koa-bodyparser": "^4.2.1",
     "koa-router": "^7.4.0",

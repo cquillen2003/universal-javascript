@@ -1,19 +1,30 @@
+import jwt from 'jsonwebtoken';
+
 function authorize() {
 	return async (ctx, next) => {
 		console.log('authorize()....');
 
-		var token;
+		var token = ctx.cookies.get('UjsAuthToken');
 
-		token = ctx.cookies.get('AuthToken');
-
-		//TODO: Use JSON web tokens
-		if (token === 'abc123') {
-			ctx.state.user = {
-				id: 'admin'
+		if (token) {
+			try {
+				var decodedToken = jwt.verify(token, 'shhhhh');
+				if (decodedToken.username && decodedToken.company_id) {
+					ctx.state.session = {
+						username: decodedToken.username,
+						company_id: decodedToken.company_id
+					};
+				}
+			}
+			catch (error) {
+				console.log('Error caught in authorize()...', error);
+				ctx.status = 401;
+				ctx.body = { ok: false, msg: 'Unauthorized' };
 			}
 		}
 		else {
-			ctx.throw(401);
+			ctx.status = 401;
+			ctx.body = { ok: false, msg: 'Unauthorized' };	
 		}
 
 		await next();

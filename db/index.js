@@ -33,12 +33,6 @@ async function connect() {
 		client.connect();
 		console.log('\n\n' + 'Connected to pg database successfully.' + '\n');
 
-		var res1 = await client.query('SELECT $1::text as message', ['Hello world!']);
-		console.log(res1.rows[0].message) // Hello world!
-
-		var res2 = await client.query('SELECT * FROM TODOS');
-		console.log(res2.rows);
-
 		return client;
 	}
 	catch (error) {
