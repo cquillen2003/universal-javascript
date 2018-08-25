@@ -12,8 +12,8 @@ class TodoList extends Component {
 					<div className="col">
 						<br/>
 						<ul className="list-group">
-							{ this.props.todos.map(todo => (
-								<li key={todo._id} className={classes}>
+							{ this.props.todos.map((todo, i) => (
+								<li key={i} className={classes}>
 									{ todo.name }
 									<Link to={'/todos/' + todo._id + '/edit'} className="btn btn-link">
 										Edit

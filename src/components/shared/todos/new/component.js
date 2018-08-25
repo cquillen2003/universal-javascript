@@ -20,6 +20,8 @@ class TodoNew extends Component {
 		});
 
 		this.props.dispatch(createDoc('todo', todo));
+		
+		this.props.history.push({ pathname: '/todos' });
 	}
 
 	render() {

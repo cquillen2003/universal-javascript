@@ -42,8 +42,8 @@ export function createDoc(docType, doc) {
 			//var res = await couch.db.put(doc);
 			//doc._rev = res.rev;
 
-			//Use MongoDB (This only works client-side)
-			var res = await axios.post('/documents', doc);
+			//Use app server
+			var res = await axios.post('/' + docType + 's', doc);
 			dispatch(createDocSuccess(docType, doc));
 		}
 		catch (error) {
@@ -114,8 +114,8 @@ export function fetchDocs(docType) {
 			//var res = await couch.db.find({ selector: { type: docType }, limit: 10000 });
 			//dispatch(loadDocs(docType, res.docs));
 			
-			//Use MongoDB
-			var res = await axios.get('/documents');
+			//Use app server
+			var res = await axios.get('/' + docType + 's');
 			dispatch(loadDocs(docType, res.data.docs));
 		}
 		catch (error) {
