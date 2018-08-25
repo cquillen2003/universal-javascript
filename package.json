@@ -7,7 +7,7 @@
     "start": "node ./server/index.js",
     "dev": "node ./server/index.js & webpack --watch --progress --env.development",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "webpack --env=production"
+    "build": "webpack --env.production"
   },
   "keywords": [],
   "author": "",

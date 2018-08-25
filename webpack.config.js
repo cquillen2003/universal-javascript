@@ -8,7 +8,6 @@ TODO: Re-add SWPrecacheWebpackPlugin to generate service-worker.js file
 or try WorkboxPlugin as recommended in webpack's documentation on PWAs
 */
 
-
 module.exports = (env) => {
 
 	//Shared variables for public and private builds
