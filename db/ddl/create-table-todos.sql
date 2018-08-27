@@ -1,5 +1,3 @@
-DROP TABLE todos
-
 CREATE TABLE todos(
 	_id serial PRIMARY KEY,
 	company_id INT, 

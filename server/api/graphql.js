@@ -21,7 +21,7 @@ readFile(__dirname + '/../graphql/schema.gql', 'utf8', (err, data) => {
 	//Test graphql
 	graphql(schema, '{ hello }', root).then(res => {
 		console.log(res);
-	})
+	});
 })
 
 router.post('/graphql', async (ctx) => {
