@@ -27,7 +27,9 @@ readFile(__dirname + '/../graphql/schema.gql', 'utf8', (err, data) => {
 router.post('/graphql', async (ctx) => {
 	console.log('/graphql route...', ctx.request.body);
 
-	ctx.body = { ok: true, data: {} };
+	var result = await graphql(schema, '{ hello }', root);
+
+	ctx.body = { ok: true, data: result };
 });
 
 export default router;
