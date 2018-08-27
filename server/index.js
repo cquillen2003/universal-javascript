@@ -15,6 +15,7 @@ var sessions = require('./api/sessions').default;
 var spa = require('./controllers/app').default;
 var documents = require('./api/documents').default;
 var todos = require('./api/todos').default;
+var graphql = require('./api/graphql').default;
 
 var app = new Koa();
 
@@ -29,7 +30,6 @@ app.use(serve(__dirname + '/../public'));
 
 //Connect database and add instance to ctx
 connect().then(db => {
-	console.log('connect()...', db);
 	app.context.db = db;
 });
 
@@ -39,6 +39,7 @@ app.use(sessions.routes(), sessions.allowedMethods());
 app.use(spa.routes(), spa.allowedMethods());
 app.use(documents.routes(), documents.allowedMethods());
 app.use(todos.routes(), todos.allowedMethods());
+app.use(graphql.routes(), graphql.allowedMethods());
 
 //Private assets
 app.use(authorize());

@@ -1,0 +1,27 @@
+query Schedule {
+	appointments {
+		job {
+			number
+			customer {
+				name
+			}
+			job_address {
+				street
+			}
+		}
+		start_time
+		duration
+		appointment_users {
+			resource_id
+			user_id
+			status
+		}
+	}
+	resources {
+		id
+		name
+		users {
+			id
+		}
+	}
+}

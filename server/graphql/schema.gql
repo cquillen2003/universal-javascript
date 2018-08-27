@@ -1,0 +1,48 @@
+type Query {
+	hello: String
+	users: [User!]!
+	user(id: ID!): User
+	appointments: [Appointment!]!
+	resources: [Resource!]!
+}
+
+type User {
+	id: ID!
+	first_name: String!
+	last_name: String!
+}
+
+type Appointment {
+	id: ID!
+	job: Job!
+	start_time: String!
+	duration: Int
+	appointment_users: [AppointmentUser!]!
+}
+
+type AppointmentUser {
+	resource_id: Int,
+	user_id: Int,
+	status_id: Int
+}
+
+type Job {
+	id: ID!
+	number: String
+	customer: JobCustomer
+	job_address: JobAddress
+}
+
+type JobCustomer {
+	name: String!
+}
+
+type JobAddress {
+	street: String!
+}
+
+type Resource {
+	id: ID!
+	name: String!
+	users: [User!]!
+}
