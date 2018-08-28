@@ -1,16 +1,34 @@
-var root = {
-	hello: () => 'Hello world!',
-	appointments: appointments
+var resolvers = {
+	Query: {	
+		hello: () => 'Hello world!',
+		appointments: appointments
+	},
+	//Non-root resolvers can only be defined like this using graphql-tools
+	//The reference implementation (graphql.js) handles non-root resolvers
+	//in a very strange way
+	Appointment: {
+		job: (obj, args) => {
+			//console.log('job()...', obj, args);
+			return {
+				number: obj.number,
+				customer: {
+					name: obj.name
+				}
+			}
+		}
+	}
 };
 
 //No obj param passed on root query
-async function appointments(args, context) {
-	console.log('appointments()....', args, context.session);
+async function appointments(obj, args, context, info) {
+	//console.log('appointments()....', obj, args, context.session);
 
 	var sql = `
 		SELECT * 
 		FROM appointments
-		WHERE company_id = $1::int
+		INNER JOIN jobs ON appointments.job_id = jobs._id
+		INNER JOIN jobcustomers ON appointments.job_id = jobcustomers.job_id
+		WHERE appointments.company_id = $1::int
 	`;
 	var values = [context.session.company_id];
 
@@ -20,4 +38,4 @@ async function appointments(args, context) {
 	return res.rows;
 }
 
-export default root;
+export default resolvers;

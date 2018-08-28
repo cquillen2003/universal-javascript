@@ -1,8 +1,9 @@
 import Router from 'koa-router';
 import { readFile } from 'fs';
-import { graphql, buildSchema } from 'graphql';
+import { makeExecutableSchema, assertResolveFunctionsPresent } from 'graphql-tools';
+import { graphql } from 'graphql';
 import authorize from '../middleware/authorize';
-import root from '../graphql/resolvers/index';
+import resolvers from '../graphql/resolvers/index';
 
 var router = new Router();
 
@@ -13,10 +14,13 @@ readFile(__dirname + '/../graphql/schema.gql', 'utf8', (err, data) => {
 		console.log(err);
 	}
 	console.log(data);
-	schema = buildSchema(data);
+	schema = makeExecutableSchema({
+		typeDefs: data,
+		resolvers: resolvers
+	});
 
 	//Test graphql
-	graphql(schema, '{ hello }', root).then(res => {
+	graphql(schema, '{ hello }', null, {}).then(res => {
 		console.log(res);
 	});
 });
@@ -28,12 +32,18 @@ router.post('/graphql', async (ctx) => {
 
 	var query = `{
 		appointments {
+			job {
+				number
+				customer {
+					name
+				}
+			}
 			start_time
 			duration
 		}
 	}`;
 
-	var result = await graphql(schema, query, root, {
+	var result = await graphql(schema, query, null, {
 		db: ctx.db,
 		session: ctx.state.session
 	});
