@@ -37,9 +37,15 @@ router.post('/graphql', async (ctx) => {
 				customer {
 					name
 				}
+				job_address {
+					street
+				}
 			}
 			start_time
 			duration
+		}
+		resources {
+			name
 		}
 	}`;
 
@@ -48,7 +54,7 @@ router.post('/graphql', async (ctx) => {
 		session: ctx.state.session
 	});
 
-	ctx.body = { ok: true, data: result };
+	ctx.body = { ok: true, ...result };
 });
 
 export default router;
