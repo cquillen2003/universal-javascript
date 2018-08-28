@@ -46,3 +46,14 @@ type Resource {
 	name: String!
 	users: [User!]!
 }
+
+#Mutations
+
+type Mutation {
+	closeJob(jobId: ID!): Job
+}
+
+schema {
+	query: Query
+	mutation: Mutation
+}

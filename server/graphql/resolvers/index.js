@@ -20,6 +20,14 @@ var resolvers = {
 				}
 			}
 		}
+	},
+	Mutation: {
+		closeJob: (_, { jobId }) => {
+			console.log('closeJob()...', _, jobId);
+			return {
+				id: jobId
+			}
+		}
 	}
 };
 
