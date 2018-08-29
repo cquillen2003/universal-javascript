@@ -1,9 +1,12 @@
 type Query {
-	hello: String
 	users: [User!]!
 	user(id: ID!): User
 	appointments: [Appointment!]!
 	resources: [Resource!]!
+}
+
+type Mutation {
+	closeJob(jobId: ID!): Job
 }
 
 type User {
@@ -45,12 +48,6 @@ type Resource {
 	id: ID!
 	name: String!
 	users: [User!]!
-}
-
-#Mutations
-
-type Mutation {
-	closeJob(jobId: ID!): Job
 }
 
 schema {

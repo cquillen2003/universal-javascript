@@ -13,15 +13,9 @@ readFile(__dirname + '/../graphql/schema.gql', 'utf8', (err, data) => {
 	if (err) {
 		console.log(err);
 	}
-	console.log(data);
 	schema = makeExecutableSchema({
 		typeDefs: data,
 		resolvers: resolvers
-	});
-
-	//Test graphql
-	graphql(schema, '{ hello }', null, {}).then(res => {
-		console.log(res);
 	});
 });
 
@@ -30,7 +24,6 @@ router.use(authorize());
 router.post('/graphql', async (ctx) => {
 	console.log('/graphql route...', ctx.request.body);
 
-	/*
 	var query = `
 		query Schedule {
 			appointments {
@@ -51,8 +44,8 @@ router.post('/graphql', async (ctx) => {
 			}
 		}
 	`;
-	*/
 	
+	/*
 	//Name required for mutation if passing variables via object
 	var query = `
 		mutation myMutation($jobId: ID!) {
@@ -61,9 +54,9 @@ router.post('/graphql', async (ctx) => {
 			}
 		}
 	`;
+	*/
 
-
-	var variables = { jobId: 711 };
+	var variables = {};
 
 	var result = await graphql(schema, query, null, { db: ctx.db, session: ctx.state.session }, variables);
 
