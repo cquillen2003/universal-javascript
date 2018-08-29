@@ -43,7 +43,7 @@ export function createDoc(docType, doc) {
 			//doc._rev = res.rev;
 
 			//Use app server
-			var res = await axios.post('/' + docType + 's', doc);
+			var res = await axios.post('/documents/' + docType + 's', doc);
 			dispatch(createDocSuccess(docType, doc));
 		}
 		catch (error) {
@@ -80,7 +80,7 @@ export function updateDoc(docType, doc) {
 			//doc._rev = res.rev;
 
 			//Use MongoDB
-			var res = await axios.put('/documents', doc);
+			var res = await axios.put('/documents/' + docType + 's', doc);
 			dispatch(updateDocSuccess(docType, doc));
 		}
 		catch (error) {
@@ -115,7 +115,7 @@ export function fetchDocs(docType) {
 			//dispatch(loadDocs(docType, res.docs));
 			
 			//Use app server
-			var res = await axios.get('/' + docType + 's');
+			var res = await axios.get('/documents/' + docType + 's');
 			dispatch(loadDocs(docType, res.data.docs));
 		}
 		catch (error) {

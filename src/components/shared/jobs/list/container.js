@@ -9,16 +9,20 @@ class JobListContainer extends Component {
 	constructor(props) {
 		super(props);
 
+		/*
 		this.state = {
 			loaded: false,
 			jobs: []
 		};
+		*/
 	}
 
 	async fetchData(dispatch) {
 		console.log('fetchData()...');
-		//await dispatch(fetchDocs('job'));
 
+		await dispatch(fetchDocs('job'));
+
+		/*
 		var gql = `{
 			jobs {
 				customer {
@@ -37,6 +41,7 @@ class JobListContainer extends Component {
 		console.log('GraphQL response', res);
 
 		this.setState({ loaded: true, jobs: res.data.data.jobs });
+		*/
 	}
 
 	componentWillMount() {
@@ -48,16 +53,16 @@ class JobListContainer extends Component {
 
 	async componentDidMount() {
 		console.log('componentDidMount()...');
-		this.fetchData(this.props.dispatch);	
+		this.fetchData(this.props.dispatch);
 	}
 
 	render() {
-		if (!this.state.loaded) {
+		if (!this.props.loaded) {
 			return null;
 		}
 
 		return (
-			<JobList jobs={this.state.jobs}/>
+			<JobList jobs={this.props.jobs}/>
 		)
 	}
 
@@ -65,8 +70,8 @@ class JobListContainer extends Component {
 
 function mapStateToProps(state) {
 	return {
-		jobs: [], //state.db.job.ids.map(id => state.db.job.docs[id]),
-		//loaded: true //state.db.job.loaded
+		jobs: state.db.job.ids.map(id => state.db.job.docs[id]),
+		loaded: state.db.job.loaded
 	}
 }
 

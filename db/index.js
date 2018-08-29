@@ -1,9 +1,9 @@
-//import { MongoClient } from 'mongodb';
-import { Client } from 'pg';
+import { MongoClient } from 'mongodb';
+//import { Client } from 'pg';
 
 //https://blog.mlab.com/2017/05/mongodb-connection-pooling-for-express-applications/
 
-/*
+
 var url = process.env.MONGO_DB_URL + '/test?retryWrites=true';
 var database = 'myproject';
 
@@ -21,8 +21,8 @@ async function connect() {
 		console.log(error);
 	}
 }
-*/
 
+/*
 async function connect() {
 	try {
 		//TODO: Use pool instead per Heroku docs (?)
@@ -40,5 +40,6 @@ async function connect() {
 		console.log(error);
 	}
 }
+*/
 
 export default connect;

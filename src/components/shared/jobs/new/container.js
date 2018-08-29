@@ -1,15 +1,15 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import TodoNew from './component';
+import JobNew from './component';
 
-class TodoNewContainer extends Component {
+class JobNewContainer extends Component {
 
 	render() {
 		return (
-			<TodoNew { ...this.props }/>
+			<JobNew { ...this.props }/>
 		)
 	}
 
 }
 
-export default connect()(TodoNewContainer);
+export default connect()(JobNewContainer);
