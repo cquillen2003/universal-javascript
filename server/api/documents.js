@@ -4,7 +4,7 @@ var router = new Router();
 
 router.get('/documents', async (ctx) => {
 	try {
-		var res = await ctx.db.collection('todos').find({}).toArray();
+		var res = await ctx.db.collection('jobs').find({}).toArray();
 
 		ctx.body = { ok: true, docs: res };
 	}
@@ -17,7 +17,7 @@ router.get('/documents', async (ctx) => {
 
 router.post('/documents', async (ctx) => {
 	try {
-		var res = await ctx.db.collection('todos').insertOne(ctx.request.body);
+		var res = await ctx.db.collection('jobs').insertOne(ctx.request.body);
 
 		ctx.body = { ok: true, res: res };
 	}
@@ -32,7 +32,7 @@ router.put('/documents', async (ctx) => {
 	try {
 		var doc = ctx.request.body;
 		console.log('Doc is', doc);
-		var res = await ctx.db.collection('todos').replaceOne({ _id: doc._id }, doc);
+		var res = await ctx.db.collection('jobs').replaceOne({ _id: doc._id }, doc);
 
 		ctx.body = { ok: true, res: res };
 	}

@@ -2,6 +2,7 @@
 type Query {
 	users: [User!]!
 	user(id: ID!): User
+	jobs: [Job!]!
 	appointments: [Appointment!]!
 	resources: [Resource!]!
 }

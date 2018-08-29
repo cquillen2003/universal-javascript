@@ -10,10 +10,10 @@ class Navbar extends Component {
 					<a className="navbar-brand" href="/app/home">Universal JS Desktop</a>
 					<ul className="navbar-nav mr-auto">
 						<li className="nav-item">
-							<Link to="/todos" className="nav-link">List</Link>
+							<Link to="/jobs" className="nav-link">Jobs</Link>
 						</li>
 						<li className="nav-item">
-							<Link to="/todos/new" className="nav-link">New</Link>
+							<Link to="/jobs/new" className="nav-link">New</Link>
 						</li>
 						<li className="nav-item">
 							<Link to="/component" className="nav-link">Component</Link>

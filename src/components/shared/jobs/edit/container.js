@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import TodoEdit from './component';
+import JobEdit from './component';
 
-class TodoEditContainer extends Component {
+class JobEditContainer extends Component {
 
 	render() {
 		return (
@@ -15,8 +15,8 @@ class TodoEditContainer extends Component {
 function mapStateToProps(state, ownProps) {
 	//TODO: Clone item to prevent mutation?
 	return {
-		todo: state.db.todo.docs[ownProps.match.params.id]
+		job: state.db.job.docs[ownProps.match.params.id]
 	}
 }
 
-export default connect(mapStateToProps)(TodoEditContainer);
+export default connect(mapStateToProps)(JobEditContainer);

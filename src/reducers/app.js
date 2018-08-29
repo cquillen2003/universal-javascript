@@ -3,7 +3,7 @@ import { ids, docs, newDoc, loaded } from './db';
 var initialState = {
 	session: {},
 	db: {
-		todo: { ids: [], docs: {}, loaded: false }
+		job: { ids: [], docs: {}, loaded: false }
 	},
 	ui: {}
 };

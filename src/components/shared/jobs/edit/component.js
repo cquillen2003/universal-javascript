@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { updateDoc } from '../../../../actions';
-import TodoForm from '../form/component';
+import JobForm from '../form/component';
 
-class TodoEdit extends Component {
+class JobEdit extends Component {
 
 	constructor(props) {
 		super(props);
@@ -13,10 +13,7 @@ class TodoEdit extends Component {
 	update(formState) {
 		console.log('update()...', formState);
 
-		this.props.todo.name = formState.name;
-		this.props.todo.description = formState.desc;
-
-		this.props.dispatch(updateDoc('todo', this.props.todo));
+		//this.props.dispatch(updateDoc('job', this.props.todo));
 	}
 
 	render() {
@@ -25,7 +22,7 @@ class TodoEdit extends Component {
 				<div className="row">
 					<div className="col-6">
 						<br/>
-						<TodoForm todo={this.props.todo} save={this.update}/>
+						<JobForm job={this.props.job} save={this.update}/>
 					</div>
 				</div>
 			</div>
@@ -34,4 +31,4 @@ class TodoEdit extends Component {
 
 }
 
-export default TodoEdit;
+export default JobEdit;

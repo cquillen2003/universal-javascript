@@ -48,6 +48,7 @@ router.post('/graphql', async (ctx) => {
 	*/
 	
 	//Name required for mutation if passing variables via object
+	/*
 	var query = `
 		mutation myMutation($input: JobInput!) {
 			createJob(input: $input) {
@@ -64,8 +65,10 @@ router.post('/graphql', async (ctx) => {
 			street: '1 Software Ln'
 		}
 	};
+	*/
 
-	var variables = { input: job };
+	var query = ctx.request.body.query;
+	var variables = ctx.request.body.variables;
 
 	var result = await graphql(schema, query, null, { db: ctx.db, session: ctx.state.session }, variables);
 

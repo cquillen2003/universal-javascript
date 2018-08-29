@@ -14,7 +14,7 @@ var pages = require('./controllers/pages').default;
 var sessions = require('./api/sessions').default;
 var spa = require('./controllers/app').default;
 var documents = require('./api/documents').default;
-var todos = require('./api/todos').default;
+var jobs = require('./api/jobs').default;
 var graphql = require('./api/graphql').default;
 
 var app = new Koa();
@@ -38,7 +38,7 @@ app.use(pages.routes(), pages.allowedMethods());
 app.use(sessions.routes(), sessions.allowedMethods());
 app.use(spa.routes(), spa.allowedMethods());
 app.use(documents.routes(), documents.allowedMethods());
-app.use(todos.routes(), todos.allowedMethods());
+app.use(jobs.routes(), jobs.allowedMethods());
 app.use(graphql.routes(), graphql.allowedMethods());
 
 //Private assets

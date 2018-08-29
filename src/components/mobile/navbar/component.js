@@ -9,10 +9,10 @@ class Navbar extends Component {
 				<div className="container">
 					<ul className="navbar-nav d-flex justify-content-center">
 						<li className="nav-item">
-							<Link to="/todos" className="nav-link">List</Link>
+							<Link to="/jobs" className="nav-link">Jobs</Link>
 						</li>
 						<li className="nav-item">
-							<Link to="/todos/new" className="nav-link">New</Link>
+							<Link to="/jobs/new" className="nav-link">New</Link>
 						</li>
 					</ul>
 				</div>

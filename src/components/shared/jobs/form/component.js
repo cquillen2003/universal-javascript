@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-class TodoForm extends Component {
+class JobForm extends Component {
 
 	constructor(props) {
 		super(props);
@@ -8,13 +8,15 @@ class TodoForm extends Component {
 		if (!props.todo) {
 			this.state = {
 				name: '',
+				street: '',
 				desc: ''
 			};
 		}
 		else {
 			this.state = {
-				name: this.props.todo.name,
-				desc: this.props.todo.description
+				name: this.props.job.customer.name,
+				street: this.props.job.address.street,
+				desc: this.props.job.description
 			};
 		}
 
@@ -47,6 +49,16 @@ class TodoForm extends Component {
 					/>
 				</div>
 				<div className="form-group">
+					<label>Address</label>
+					<input 
+						type="text" 
+						className="form-control" 
+						name="street" 
+						value={this.state.street}
+						onChange={this.change}
+					/>
+				</div>
+				<div className="form-group">
 					<label>Description</label>
 					<textarea 
 						className="form-control" 
@@ -63,4 +75,4 @@ class TodoForm extends Component {
 
 }
 
-export default TodoForm;
+export default JobForm;

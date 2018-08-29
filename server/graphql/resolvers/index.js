@@ -5,6 +5,18 @@ The reference implementation (graphql.js) handles non-root resolvers in a strang
 
 var resolvers = {
 	Query: {
+		jobs: async (obj, args, context) => {
+			var sql = `
+				SELECT *
+				FROM jobs
+				INNER JOIN jobcustomers ON jobs._id = jobcustomers.job_id
+				INNER JOIN jobaddresses ON jobs._id = jobaddresses.job_id
+				WHERE jobs.company_id = $1::int
+			`;
+			var res = await context.db.query(sql, [context.session.company_id]);
+		
+			return res.rows;
+		},
 		appointments: async (obj, args, context, info) => {
 			var sql = `
 				SELECT * 
@@ -61,6 +73,18 @@ var resolvers = {
 
 			return {
 				id: res1.rows[0]._id
+			}
+		}
+	},
+	Job: {
+		customer: (obj) => {
+			return {
+				name: obj.name
+			}
+		},
+		job_address: (obj) => {
+			return {
+				street: obj.street
 			}
 		}
 	},
