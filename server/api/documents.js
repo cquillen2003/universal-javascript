@@ -1,6 +1,9 @@
 import Router from 'koa-router';
+import authorize from '../middleware/authorize';
 
 var router = new Router();
+
+router.use(authorize());
 
 router.get('/documents/:collection', async (ctx) => {
 	try {
