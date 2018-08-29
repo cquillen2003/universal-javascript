@@ -1,3 +1,4 @@
+#Queries
 type Query {
 	users: [User!]!
 	user(id: ID!): User
@@ -5,30 +6,20 @@ type Query {
 	resources: [Resource!]!
 }
 
+#Mutations
 type Mutation {
-	closeJob(jobId: ID!): Job
+	createJob(input: JobInput!): Job!
+	updateJob(input: JobInput!): Job!
 }
 
+#Users
 type User {
 	id: ID!
 	first_name: String!
 	last_name: String!
 }
 
-type Appointment {
-	id: ID!
-	job: Job!
-	start_time: String!
-	duration: Int
-	appointment_users: [AppointmentUser!]!
-}
-
-type AppointmentUser {
-	resource_id: Int,
-	user_id: Int,
-	status_id: Int
-}
-
+#Jobs
 type Job {
 	id: ID!
 	number: String
@@ -44,12 +35,42 @@ type JobAddress {
 	street: String!
 }
 
+input JobInput {
+	customer: JobCustomerInput
+	job_address: JobAddressInput
+}
+
+input JobCustomerInput {
+	name: String!
+}
+
+input JobAddressInput {
+	street: String!
+}
+
+#Appointments
+type Appointment {
+	id: ID!
+	job: Job!
+	start_time: String!
+	duration: Int
+	appointment_users: [AppointmentUser!]!
+}
+
+type AppointmentUser {
+	resource_id: Int,
+	user_id: Int,
+	status_id: Int
+}
+
+#Resources
 type Resource {
 	id: ID!
 	name: String!
 	users: [User!]!
 }
 
+#Schema
 schema {
 	query: Query
 	mutation: Mutation

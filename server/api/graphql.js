@@ -24,6 +24,7 @@ router.use(authorize());
 router.post('/graphql', async (ctx) => {
 	console.log('/graphql route...', ctx.request.body);
 
+	/*
 	var query = `
 		query Schedule {
 			appointments {
@@ -44,19 +45,27 @@ router.post('/graphql', async (ctx) => {
 			}
 		}
 	`;
+	*/
 	
-	/*
 	//Name required for mutation if passing variables via object
 	var query = `
-		mutation myMutation($jobId: ID!) {
-			closeJob(jobId: $jobId) {
+		mutation myMutation($input: JobInput!) {
+			createJob(input: $input) {
 				id
 			}
 		}
 	`;
-	*/
 
-	var variables = {};
+	var job = {
+		customer: {
+			name: 'Mark Graph'
+		},
+		job_address: {
+			street: '1 Software Ln'
+		}
+	};
+
+	var variables = { input: job };
 
 	var result = await graphql(schema, query, null, { db: ctx.db, session: ctx.state.session }, variables);
 

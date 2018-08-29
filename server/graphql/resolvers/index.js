@@ -30,10 +30,37 @@ var resolvers = {
 		}
 	},
 	Mutation: {
-		closeJob: (obj, args) => {
-			console.log('closeJob()...', obj, args.jobId);
+		createJob: async (obj, args, context) => {
+			console.log('createJob()...', obj, args);
+
+			//Create job record
+			var sql = `
+				INSERT INTO jobs (company_id, number)
+				VALUES ($1, $2)
+				RETURNING *
+			`;
+			var res1 = await context.db.query(sql, [context.session.company_id, '701']);
+
+			//Create job customer record
+			var sql = `
+				INSERT INTO jobcustomers (company_id, job_id, name)
+				VALUES ($1, $2, $3)
+				RETURNING *
+			`
+			var res2 = await context.db.query(sql, [context.session.company_id, res1.rows[0]._id, args.input.customer.name]);
+
+			//Create job address record
+			var sql = `
+				INSERT INTO jobaddresses (company_id, job_id, street)
+				VALUES ($1, $2, $3)
+				RETURNING *
+			`
+			var values = [context.session.company_id, res1.rows[0]._id, args.input.job_address.street];
+
+			var res3 = await context.db.query(sql, values);
+
 			return {
-				id: args.jobId
+				id: res1.rows[0]._id
 			}
 		}
 	},
