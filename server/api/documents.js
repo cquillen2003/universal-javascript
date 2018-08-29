@@ -4,7 +4,8 @@ var router = new Router();
 
 router.get('/documents/:collection', async (ctx) => {
 	try {
-		var res = await ctx.db.collection(ctx.params.collection).find({}).toArray();
+		var query = { company_id: ctx.state.session.company_id };
+		var res = await ctx.db.collection(ctx.params.collection).find(query).toArray();
 
 		ctx.body = { ok: true, docs: res };
 	}
@@ -17,7 +18,11 @@ router.get('/documents/:collection', async (ctx) => {
 
 router.post('/documents/:collection', async (ctx) => {
 	try {
-		var res = await ctx.db.collection(ctx.params.collection).insertOne(ctx.request.body);
+		var doc = {
+			company_id: ctx.state.session.company_id,
+			...ctx.request.body
+		};
+		var res = await ctx.db.collection(ctx.params.collection).insertOne(doc);
 
 		ctx.body = { ok: true, res: res };
 	}
