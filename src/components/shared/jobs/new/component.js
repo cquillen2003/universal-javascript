@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-//import axios from 'axios';
-import { createDoc } from '../../../../actions';
+import axios from 'axios';
+//import { createDoc } from '../../../../actions';
 import JobForm from '../form/component';
 
 class JobNew extends Component {
@@ -23,7 +23,6 @@ class JobNew extends Component {
 			}
 		};
 
-		/*
 		var gql = `
 			mutation myMutation($input: JobInput!) {
 				createJob(input: $input) {
@@ -36,9 +35,8 @@ class JobNew extends Component {
 			query: gql,
 			variables: { input: job }
 		});
-		*/
 
-		this.props.dispatch(createDoc('job', job));
+		//this.props.dispatch(createDoc('job', job));
 		
 		this.props.history.push({ pathname: '/jobs' });
 	}

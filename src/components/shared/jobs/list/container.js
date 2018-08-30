@@ -9,20 +9,17 @@ class JobListContainer extends Component {
 	constructor(props) {
 		super(props);
 
-		/*
 		this.state = {
 			loaded: false,
 			jobs: []
 		};
-		*/
 	}
 
 	async fetchData(dispatch) {
 		console.log('fetchData()...');
 
-		await dispatch(fetchDocs('job'));
+		//await dispatch(fetchDocs('job'));
 
-		/*
 		var gql = `{
 			jobs {
 				customer {
@@ -41,7 +38,6 @@ class JobListContainer extends Component {
 		console.log('GraphQL response', res);
 
 		this.setState({ loaded: true, jobs: res.data.data.jobs });
-		*/
 	}
 
 	componentWillMount() {
@@ -57,12 +53,12 @@ class JobListContainer extends Component {
 	}
 
 	render() {
-		if (!this.props.loaded) {
+		if (!this.state.loaded) {
 			return null;
 		}
 
 		return (
-			<JobList jobs={this.props.jobs}/>
+			<JobList jobs={this.state.jobs}/>
 		)
 	}
 
