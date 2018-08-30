@@ -76,6 +76,9 @@ router.get('/app/*', async (ctx) => {
 		/*
 		context = { fetchers: [] };
 
+		//Important!!
+		//AppDesktop component is no longer setup to be wrapped by StaticRouter for SSR as below
+		//It is setup for simple index.js file and App and Layout components
 		ReactDOMServer.renderToStaticMarkup(
 			<Provider store={store}>
 				<StaticRouter basename="/app" location={ctx.url} context={context}>
