@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import axios from 'axios';
 //import { createDoc } from '../../../../actions';
 import JobForm from '../form/component';
+import { Mutation } from 'react-apollo';
+import gql from 'graphql-tag';
 
 class JobNew extends Component {
 
@@ -11,9 +13,10 @@ class JobNew extends Component {
 		this.create = this.create.bind(this);
 	}
 
-	async create(formState) {
-		console.log('create()...', formState);
+	async create() {
+		console.log('create()...');
 
+		/*
 		var job = {
 			customer: {
 				name: formState.name
@@ -39,6 +42,7 @@ class JobNew extends Component {
 		//this.props.dispatch(createDoc('job', job));
 		
 		this.props.history.push({ pathname: '/jobs' });
+		*/
 	}
 
 	render() {
@@ -47,7 +51,17 @@ class JobNew extends Component {
 				<div className="row">
 					<div className="col-6">
 						<br/>
-						<JobForm save={this.create}/>
+						<Mutation mutation={gql`
+							mutation myMutation($input: JobInput!) {
+								createJob(input: $input) {
+									id
+								}
+							}
+						`}>
+							{ (submit, result) => (
+								<JobForm submit={submit} history={this.props.history}/>
+							) }
+						</Mutation>
 					</div>
 				</div>
 			</div>
