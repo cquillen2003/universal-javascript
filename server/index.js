@@ -14,6 +14,7 @@ var pages = require('./controllers/pages').default;
 var sessions = require('./api/sessions').default;
 var spa = require('./controllers/app').default;
 var documents = require('./api/documents').default;
+var events = require('./api/events').default;
 var jobs = require('./api/jobs').default;
 var graphql = require('./api/graphql').default;
 
@@ -38,6 +39,7 @@ app.use(pages.routes(), pages.allowedMethods());
 app.use(sessions.routes(), sessions.allowedMethods());
 app.use(spa.routes(), spa.allowedMethods());
 app.use(documents.routes(), documents.allowedMethods());
+app.use(events.routes(), events.allowedMethods());
 app.use(jobs.routes(), jobs.allowedMethods());
 app.use(graphql.routes(), graphql.allowedMethods());
 
