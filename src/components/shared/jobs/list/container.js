@@ -3,6 +3,8 @@ import { connect } from 'react-redux';
 import axios from 'axios';
 import { fetchDocs } from '../../../../actions';
 import JobList from './component';
+import { Query } from "react-apollo";
+import gql from "graphql-tag";
 
 class JobListContainer extends Component {
 
