@@ -3,8 +3,8 @@ import { Switch, Route } from 'react-router-dom';
 import Navbar from '../../../../src/components/desktop/navbar/component';
 import JobNewContainer from '../../../../src/components/shared/jobs/new/container';
 import JobEditContainer from '../../../../src/components/shared/jobs/edit/container';
-//import JobListContainer from '../../../../src/components/shared/jobs/list/container';
-import JobListContainer from '../../../../src/components/shared/jobs/list/query';
+import JobListContainer from '../../../../src/components/shared/jobs/list/container';
+//import JobListContainer from '../../../../src/components/shared/jobs/list/query';
 
 class LayoutDesktop extends Component {
 

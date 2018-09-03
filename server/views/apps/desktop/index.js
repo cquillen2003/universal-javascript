@@ -4,6 +4,7 @@ import { createStore, applyMiddleware } from 'redux';
 import thunkMiddleware from 'redux-thunk';
 import rootReducer from '../../../../src/reducers/app';
 import AppDesktop from './component';
+import cashay from '../../../../src/cashay';
 
 /*
 var state = window.__PRELOADED_STATE__;
@@ -18,5 +19,7 @@ AppDesktop contains the BrowserRouter and not the StaticRouter used on the serve
 */
 
 var store = createStore(rootReducer, applyMiddleware(thunkMiddleware));
+
+cashay.create({ store: store });
 
 ReactDOM.render(<AppDesktop store={store}/>, document.getElementById('root'));

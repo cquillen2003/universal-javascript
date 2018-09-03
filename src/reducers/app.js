@@ -5,14 +5,16 @@ var initialState = {
 	db: {
 		job: { ids: [], docs: {}, loaded: false }
 	},
-	ui: {}
+	ui: {},
+	results: {
+		loaded: false,
+		data: {}
+	}
 };
 
 function rootReducer(state = initialState, action) {
 	console.log(action.type);
 	switch(action.type) {
-		//case 'SAVE_DOC_START':
-		//case 'SAVE_DOC_SUCCESS':
 		case 'CREATE_DOC_START':
 		case 'CREATE_DOC_SUCCESS':
 		case 'UPDATE_DOC_START':
@@ -29,6 +31,11 @@ function rootReducer(state = initialState, action) {
 						loaded: loaded(state.db[action.payload.docType].loaded, action)
 					}
 				} 
+			}
+		case 'LOAD_QUERY':
+			return {
+				...state,
+				results: action.payload
 			}
 		default:
 			return state
