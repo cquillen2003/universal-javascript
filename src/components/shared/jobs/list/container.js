@@ -25,10 +25,10 @@ class JobListContainer extends Component {
 		var gql = `{
 			jobs {
 				customer {
-					name
+					display_name
 				}
 				job_address {
-					street
+					street1
 				}
 			}
 		}`;

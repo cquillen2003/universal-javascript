@@ -17,8 +17,8 @@ class JobList extends Component {
 									<Link to={'/jobs/' + job._id + '/edit'} className="btn btn-link float-right">
 										Edit
 									</Link>
-									<div>{ job.customer.name }</div>
-									<div style={{ fontSize: '0.9rem' }}>{ job.job_address.street }</div>
+									<div>{ job.customer.display_name }</div>
+									<div style={{ fontSize: '0.9rem' }}>{ job.job_address.street1 }</div>
 								</li>
 							)) }
 						</ul>

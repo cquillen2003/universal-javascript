@@ -29,11 +29,11 @@ type Job {
 }
 
 type JobCustomer {
-	name: String!
+	display_name: String!
 }
 
 type JobAddress {
-	street: String!
+	street1: String!
 }
 
 input JobInput {
@@ -42,11 +42,11 @@ input JobInput {
 }
 
 input JobCustomerInput {
-	name: String!
+	display_name: String!
 }
 
 input JobAddressInput {
-	street: String!
+	street1: String!
 }
 
 #Appointments

@@ -9,8 +9,8 @@ var resolvers = {
 			var sql = `
 				SELECT *
 				FROM jobs
-				INNER JOIN jobcustomers ON jobs._id = jobcustomers.job_id
-				INNER JOIN jobaddresses ON jobs._id = jobaddresses.job_id
+				INNER JOIN job_customers ON jobs._id = job_customers.job_id
+				INNER JOIN job_addresses ON jobs._id = job_addresses.job_id
 				WHERE jobs.company_id = $1::int
 			`;
 			var res = await context.db.query(sql, [context.session.company_id]);
@@ -22,8 +22,8 @@ var resolvers = {
 				SELECT * 
 				FROM appointments
 				INNER JOIN jobs ON appointments.job_id = jobs._id
-				INNER JOIN jobcustomers ON appointments.job_id = jobcustomers.job_id
-				INNER JOIN jobaddresses ON appointments.job_id = jobaddresses.job_id
+				INNER JOIN job_customers ON appointments.job_id = job_customers.job_id
+				INNER JOIN job_addresses ON appointments.job_id = job_addresses.job_id
 				WHERE appointments.company_id = $1::int
 			`;
 			var res = await context.db.query(sql, [context.session.company_id]);
@@ -55,7 +55,7 @@ var resolvers = {
 
 			//Create job customer record
 			var sql = `
-				INSERT INTO jobcustomers (company_id, job_id, name)
+				INSERT INTO job_customers (company_id, job_id, name)
 				VALUES ($1, $2, $3)
 				RETURNING *
 			`
@@ -63,7 +63,7 @@ var resolvers = {
 
 			//Create job address record
 			var sql = `
-				INSERT INTO jobaddresses (company_id, job_id, street)
+				INSERT INTO job_addresses (company_id, job_id, street)
 				VALUES ($1, $2, $3)
 				RETURNING *
 			`
@@ -79,27 +79,19 @@ var resolvers = {
 	Job: {
 		customer: (obj) => {
 			return {
-				name: obj.name
+				display_name: obj.display_name
 			}
 		},
 		job_address: (obj) => {
 			return {
-				street: obj.street
+				street1: obj.street1
 			}
 		}
 	},
 	Appointment: {
 		job: (obj, args) => {
 			//console.log('job()...', obj, args);
-			return {
-				number: obj.number,
-				customer: {
-					name: obj.name
-				},
-				job_address: {
-					street: obj.street
-				}
-			}
+			return obj;
 		}
 	}
 };

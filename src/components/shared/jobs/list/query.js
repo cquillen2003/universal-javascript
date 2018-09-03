@@ -6,10 +6,10 @@ import JobList from './component';
 var GET_JOBS = gql`{
 	jobs {
 		customer {
-			name
+			display_name
 		}
 		job_address {
-			street
+			street1
 		}
 	}
 }`;
