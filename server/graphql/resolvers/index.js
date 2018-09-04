@@ -134,6 +134,10 @@ var resolvers = {
 				WHERE _id = $2
 			`;
 			var res3 = await context.db.query(sql, [args.input.job_address.street1, res1.rows[0].job_address_id]);
+
+			return {
+				id: args.id
+			}
 		}		
 	},
 	Job: {
