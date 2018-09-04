@@ -7,7 +7,13 @@ var resolvers = {
 	Query: {
 		jobs: async (obj, args, context) => {
 			var sql = `
-				SELECT *
+				SELECT 
+					jobs._id, 
+					jobs.number,
+					job_customers._id AS job_customer_id, 
+					job_customers.display_name,
+					job_addresses._id AS job_address_id, 
+					job_addresses.street1
 				FROM jobs
 				INNER JOIN job_customers ON jobs._id = job_customers.job_id
 				INNER JOIN job_addresses ON jobs._id = job_addresses.job_id
@@ -55,42 +61,49 @@ var resolvers = {
 
 			//Create job customer record
 			var sql = `
-				INSERT INTO job_customers (company_id, job_id, name)
+				INSERT INTO job_customers (company_id, job_id, display_name)
 				VALUES ($1, $2, $3)
 				RETURNING *
 			`
-			var res2 = await context.db.query(sql, [context.session.company_id, res1.rows[0]._id, args.input.customer.name]);
+			var res2 = await context.db.query(sql, [context.session.company_id, res1.rows[0]._id, args.input.customer.display_name]);
 
 			//Create job address record
 			var sql = `
-				INSERT INTO job_addresses (company_id, job_id, street)
+				INSERT INTO job_addresses (company_id, job_id, street1)
 				VALUES ($1, $2, $3)
 				RETURNING *
 			`
-			var values = [context.session.company_id, res1.rows[0]._id, args.input.job_address.street];
+			var values = [context.session.company_id, res1.rows[0]._id, args.input.job_address.street1];
 
 			var res3 = await context.db.query(sql, values);
 
+			console.log('Return from createJob()...', res1.rows[0]);
 			return {
 				id: res1.rows[0]._id
 			}
 		}
 	},
 	Job: {
+		//TODO: Change _id to id in database and remove this
+		id: (obj) => { 
+			console.log('Job.id()...', obj);
+			return obj._id
+		},
 		customer: (obj) => {
 			return {
+				id: obj.job_customer_id,
 				display_name: obj.display_name
 			}
 		},
 		job_address: (obj) => {
 			return {
+				id: obj.job_address_id,
 				street1: obj.street1
 			}
 		}
 	},
 	Appointment: {
 		job: (obj, args) => {
-			//console.log('job()...', obj, args);
 			return obj;
 		}
 	}

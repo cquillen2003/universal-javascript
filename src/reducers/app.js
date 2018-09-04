@@ -6,10 +6,7 @@ var initialState = {
 		job: { ids: [], docs: {}, loaded: false }
 	},
 	ui: {},
-	results: {
-		loaded: false,
-		data: {}
-	}
+	queries: {} // queryId: { loaded_at, data } for each query
 };
 
 function rootReducer(state = initialState, action) {
@@ -35,7 +32,13 @@ function rootReducer(state = initialState, action) {
 		case 'LOAD_QUERY':
 			return {
 				...state,
-				results: action.payload
+				queries: {
+					...state.queries,
+					[action.payload.query]: {
+						loaded_at: Date.now(),
+						data: action.payload.data
+					}
+				}
 			}
 		default:
 			return state

@@ -1,6 +1,6 @@
 import Router from 'koa-router';
 import { readFile } from 'fs';
-import { makeExecutableSchema, assertResolveFunctionsPresent } from 'graphql-tools';
+import { makeExecutableSchema } from 'graphql-tools';
 import { graphql } from 'graphql';
 import authorize from '../middleware/authorize';
 import resolvers from '../graphql/resolvers/index';
@@ -9,7 +9,7 @@ var router = new Router();
 
 var schema;
 
-readFile(__dirname + '/../graphql/schema.gql', 'utf8', (err, data) => {
+readFile(__dirname + '/../graphql/schema.graphql', 'utf8', (err, data) => {
 	if (err) {
 		console.log(err);
 	}
@@ -24,53 +24,12 @@ router.use(authorize());
 router.post('/graphql', async (ctx) => {
 	console.log('/graphql route...', ctx.request.body);
 
-	/*
-	var query = `
-		query Schedule {
-			appointments {
-				job {
-					number
-					customer {
-						name
-					}
-					job_address {
-						street
-					}
-				}
-				start_time
-				duration
-			}
-			resources {
-				name
-			}
-		}
-	`;
-	*/
-	
-	//Name required for mutation if passing variables via object
-	/*
-	var query = `
-		mutation myMutation($input: JobInput!) {
-			createJob(input: $input) {
-				id
-			}
-		}
-	`;
-
-	var job = {
-		customer: {
-			name: 'Mark Graph'
-		},
-		job_address: {
-			street: '1 Software Ln'
-		}
-	};
-	*/
-
 	var query = ctx.request.body.query;
 	var variables = ctx.request.body.variables;
 
 	var result = await graphql(schema, query, null, { db: ctx.db, session: ctx.state.session }, variables);
+
+	console.log('/graphql route result....', result);
 
 	ctx.body = { ok: true, ...result };
 });

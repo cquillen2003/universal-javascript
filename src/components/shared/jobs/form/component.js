@@ -32,19 +32,7 @@ class JobForm extends Component {
 
 	submit(event) {
 		event.preventDefault();
-		//this.props.save(this.state);
-
-		var job = {
-			customer: {
-				name: this.state.name
-			},
-			job_address: {
-				street: this.state.street
-			}
-		};
-
-		this.props.submit({ variables: { input: job } });
-		this.props.history.push({ pathname: '/jobs' });
+		this.props.save(this.state);
 	}
 
 	render() {

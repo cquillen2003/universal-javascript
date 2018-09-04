@@ -29,10 +29,12 @@ type Job {
 }
 
 type JobCustomer {
+	id: ID
 	display_name: String!
 }
 
 type JobAddress {
+	id: ID
 	street1: String!
 }
 
