@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { updateDoc } from '../../../../actions';
+import axios from 'axios';
+//import { updateDoc } from '../../../../actions';
 import JobForm from '../form/component';
 
 class JobEdit extends Component {
@@ -10,10 +11,36 @@ class JobEdit extends Component {
 		this.update = this.update.bind(this);
 	}
 
-	update(formState) {
-		console.log('update()...', formState);
+	async update(formState) {
+		console.log('update()...', this.props.job);
+
+		var jobInput = {
+			customer: {
+				display_name: formState.name
+			},
+			job_address: {
+				street1: formState.street
+			}
+		}
+
+		var gql = `
+			mutation myMutation($id: ID!, $input: JobInput!) {
+				updateJob(id: $id, input: $input) {
+					id
+				}
+			}
+		`;
+
+		var res = await axios.post('/graphql', {
+			query: gql,
+			variables: { id: this.props.job.id, input: jobInput }
+		});
+
+		console.log('GraphQL mutation response', res);		
 
 		//this.props.dispatch(updateDoc('job', this.props.todo));
+
+		this.props.history.push({ pathname: '/jobs' });
 	}
 
 	render() {

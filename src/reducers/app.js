@@ -35,7 +35,6 @@ function rootReducer(state = initialState, action) {
 				queries: {
 					...state.queries,
 					[action.payload.query]: {
-						loaded_at: Date.now(),
 						data: action.payload.data
 					}
 				}

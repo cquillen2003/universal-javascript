@@ -14,7 +14,7 @@ class JobList extends Component {
 						<ul className="list-group">
 							{ this.props.jobs.map((job, i) => (
 								<li key={i} className="list-group-item">
-									<Link to={'/jobs/' + job._id + '/edit'} className="btn btn-link float-right">
+									<Link to={'/jobs/' + job.id + '/edit'} className="btn btn-link float-right">
 										Edit
 									</Link>
 									<div>{ job.customer.display_name }</div>

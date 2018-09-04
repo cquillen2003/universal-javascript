@@ -5,7 +5,7 @@ class JobForm extends Component {
 	constructor(props) {
 		super(props);
 
-		if (!props.todo) {
+		if (!props.job) {
 			this.state = {
 				name: '',
 				street: '',
@@ -14,8 +14,8 @@ class JobForm extends Component {
 		}
 		else {
 			this.state = {
-				name: this.props.job.customer.name,
-				street: this.props.job.address.street,
+				name: this.props.job.customer.display_name,
+				street: this.props.job.job_address.street1,
 				desc: this.props.job.description
 			};
 		}

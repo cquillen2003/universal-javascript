@@ -43,6 +43,7 @@ function mapStateToProps() {
 
 	var query = `{
 		jobs {
+			id
 			number
 			customer {
 				display_name

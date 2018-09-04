@@ -3,6 +3,7 @@ type Query {
 	users: [User!]!
 	user(id: ID!): User
 	jobs: [Job!]!
+	job(id: ID!): Job
 	appointments: [Appointment!]!
 	resources: [Resource!]!
 }
@@ -10,7 +11,7 @@ type Query {
 #Mutations
 type Mutation {
 	createJob(input: JobInput!): Job!
-	updateJob(input: JobInput!): Job!
+	updateJob(id: ID!, input: JobInput!): Job!
 }
 
 #Users
